@@ -1,0 +1,5 @@
+- hosts: routers
+  gather_facts: no
+  tasks:
+    - ios_config:
+        backup: yes

@@ -1,0 +1,26 @@
+---
+- name: Find the NETCONF template {{ template_name }}
+  set_fact:
+    template_file: "{{ filename }}"
+
+  with_first_found:
+  - files:
+      - "{{ template_name }}.j2"
+    paths:
+      - "{{ netconf_template_path }}/{{ netconf_template_os }}"
+      - "{{ netconf_template_path }}"
+    skip: true
+  loop_control:
+    loop_var: filename
+  delegate_to: localhost
+
+#- copy:
+#    content: "{{ lookup('template', template_file) }}"
+#    dest: "/tmp/{{ inventory_hostname }}_{{ template_name }}.xml"
+
+- name: Push NETCONF template {{ template_name }}
+  netconf_rpc:
+    rpc: edit-config
+    content: "{{ lookup('template', template_file) }}"
+  when: template_file != 'none'
+

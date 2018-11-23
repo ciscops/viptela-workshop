@@ -1,0 +1,27 @@
+<target>
+  <candidate/>
+</target>
+<config>
+{% if vpn_instances is defined %}
+  <vpn xmlns="http://viptela.com/vpn">
+{% for vpn in vpn_instances %}
+    <vpn-instance>
+      <vpn-id>{{ vpn.vpn_id }}</vpn-id>
+      <ip>
+{% for route in vpn.routes|default([]) %}
+        <route>
+          <prefix>{{ route.prefix }}</prefix>
+{% if route.next_hop is defined %}
+          <next-hop>
+            <address>{{ route.next_hop.address }}</address>
+            <distance>{{ route.next_hop.distance if route.next_hop.distance is defined else '1' }}</distance>
+          </next-hop>
+{% endif %}{# route.next_hop #}
+        </route>
+{% endfor %}{# vpn.routes #}
+      </ip>
+    </vpn-instance>
+{% endfor %}{# vpn_instances #}
+  </vpn>
+{% endif %}{# vpn_instances #}
+</config>

@@ -1,0 +1,40 @@
+<target>
+  <running/>
+</target>
+<config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+{% if interfaces is defined %}
+    <interface>
+{% for interface, data in interfaces.items() %}
+{% set name = interface | regex_replace('^[a-zA-Z]+', '') %}
+      <GigabitEthernet>
+        <name>{{ name }}</name>
+{% if data.description is defined %}
+        <description>{{ data.description }}</description>
+{% endif %}{# data.description #}
+{% if data.vrf is defined %}
+        <vrf>
+          <forwarding>{{ data.vrf }}</forwarding>
+        </vrf>
+{% endif %}{# data.vrf #}
+{% if data.ip is defined %}
+        <ip>
+          <address>
+            <dhcp/>
+          </address>
+        </ip>
+{% endif %}{# data.ip #}
+{% if data.cdp is defined %}
+        <cdp xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-cdp">
+          <enable>true</enable>
+        </cdp>
+{% endif %}{# data.cdp #}
+        <negotiation xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ethernet">
+          <auto>true</auto>
+        </negotiation>
+      </GigabitEthernet>
+{% endfor %}{# interfaces #}
+    </interface>
+{% endif %}{# interfaces #}
+  </native>
+</config>

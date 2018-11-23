@@ -1,0 +1,59 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    topo_file: viptela1.virl
+    topo_name: "{{ topo_file.split('.')[0] }}"
+    topo_id: "{{ lookup('password', '/dev/null length=4 chars=ascii_letters') }}"
+  tasks:
+    - name: Check for existing simulation
+      stat:
+        path: "{{ virl_sim_file }}"
+      register: stat_result
+
+    - block:
+      - name: Read in the Topology File
+        set_fact:
+          topo_data: "{{ lookup('file', topo_file) }}"
+          session: "{{ virl_tag }}_{{ topo_name }}_{{ topo_id }}"
+
+      - name: Create simulation environment directory
+        file:
+          path: "{{ virl_sim_file | dirname }}"
+          state: directory
+
+      - name: Create simulation ID file
+        copy:
+          dest: "{{ virl_sim_file }}"
+          content: "{{ session }}"
+
+      - name: Launch the simulation {{ session }}
+        uri:
+          url: "http://{{ virl_host }}:19399/simengine/rest/launch?session={{ session }}"
+          user: "{{ virl_username }}"
+          password: "{{ virl_password }}"
+          method: POST
+          headers:
+            Content-Type: "text/xml;charset=UTF-8"
+          body: "{{ topo_data }}"
+          return_content: yes
+        no_log: false  # Don't show output as your password will be on the URI string
+        register: uri_results
+
+
+      when: not stat_result.stat.exists
+
+    - set_fact:
+        session: "{{ lookup('file', virl_sim_file, errors='ignore') }}"
+
+    - name: Waiting for all nodes to become reachable
+      uri:
+        url: "http://{{ virl_host }}:19399/simengine/rest/nodes/{{ session }}"
+        user: "{{ virl_username }}"
+        password: "{{ virl_password }}"
+        method: GET
+        return_content: yes
+      no_log: false  # Don't show output as your password will be on the URI string
+      register: uri_results
+      until: uri_results.json[session].values() | map(attribute='reachable') | list | unique | join('') | bool
+      retries: 60
+      delay: 10

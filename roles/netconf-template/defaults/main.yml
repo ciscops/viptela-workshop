@@ -1,0 +1,3 @@
+---
+netconf_template_path: "{{ role_path }}/templates"
+netconf_operation: 'merge'
