@@ -20,11 +20,9 @@
         that:
           - stat_result.stat.exists
           - organization_name != ""
-        msg: "organization_name must be defined and {{ serial_number_file }} must exist.  Verifiy requirements in README"
+        msg: "'organization_name' must be defined and {{ serial_number_file }} must exist.  Verify the requirements in README are met."
       delegate_to: localhost
       run_once: yes
-
-    - debug: msg="Organization {{ organization_name}}"
 
     - ios_ping:
         dest: "{{ item }}"
@@ -106,31 +104,12 @@
   connection: netconf
   gather_facts: no
   tasks:
-    - name: Configure system
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: system
-      tags:
-        - system
+    - name: Push NETCONF template
+      netconf_rpc:
+        rpc: edit-config
+        content: "{{ lookup('template', 'viptela-netconf.j2') }}"
 
-    - name: Configure interfaces
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: interfaces
-      tags:
-        - interfaces
-
-    - name: Configure routes
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: routes
-      tags:
-        - routes
-
-    - name: Commit
+    - name: Commit changes
       netconf_rpc:
         rpc: commit
 
@@ -145,11 +124,8 @@
   gather_facts: no
   tasks:
     - ios_ping:
-        dest: "{{ item }}"
-      loop:
-        - 10.0.0.10
-        - 10.0.0.11
-        - 10.0.0.12
+        dest: "{{ hostvars[item].vpn_instances[0].interfaces[0].ip.address | ipaddr('address') }}"
+      loop: "{{ groups.viptela_control }}"
 
 - name: Verify that vManage is fully operational
   hosts: localhost
@@ -275,47 +251,12 @@
   connection: netconf
   gather_facts: no
   tasks:
-    - name: Configure system
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: system
-      tags:
-        - system
+    - name: Push NETCONF template
+      netconf_rpc:
+        rpc: edit-config
+        content: "{{ lookup('template', 'viptela-netconf.j2') }}"
 
-    - name: Configure interfaces
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: interfaces
-      tags:
-        - interfaces
-
-    - name: Configure routes
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: routes
-      tags:
-        - routes
-
-    - name: Configure OSPF
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: ospf
-      tags:
-        - ospf
-
-    - name: Configure OMP
-      include_role:
-        name: netconf-template
-      vars:
-        template_name: omp
-      tags:
-        - omp
-
-    - name: Commit
+    - name: Commit changes
       netconf_rpc:
         rpc: commit
 
@@ -329,11 +270,8 @@
   gather_facts: no
   tasks:
     - ios_ping:
-        dest: "{{ item }}"
-      loop:
-        - 10.0.0.13
-        - 172.20.0.10
-        - 172.20.0.14
+        dest: "{{ hostvars[item].vpn_instances[0].interfaces[0].ip.address | ipaddr('address') }}"
+      loop: "{{ groups.viptela_vedge }}"
 
 - name: Bootstrap vEdges
   hosts: viptela_vedge

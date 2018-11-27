@@ -27,6 +27,11 @@ Start the Topology
 ansible-playbook build.yml
 ```
 
+To build a certain topology:
+```
+ansible-playbook build.yml -e topo_file=other_topology.virl
+```
+
 This playbook will:
 * Launch the topology file
 * Wait until they show as reachable in VIRL
@@ -73,4 +78,4 @@ ansible-playbook clean.yml
 This playbook will:
 * Remove the devices from the `known_hosts` file
 * Remove the `myCA` directory
-* Destroy the topology
+* Destroy the topology specified in the .virlrc file
