@@ -6,6 +6,7 @@
 * ncclient
 * sshpass
 * pyOpenSSL
+* netaddr
 * The appropriate license file needs to be located at `licenses\viptela_serial_file.viptela`
 
 
