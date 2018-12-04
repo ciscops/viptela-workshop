@@ -53,6 +53,6 @@
         return_content: yes
       no_log: false  # Don't show output as your password will be on the URI string
       register: uri_results
-      until: uri_results.json[session].values() | map(attribute='reachable') | list | unique | join('') | default('') | bool
+      until: (uri_results.json[session] is defined) and (uri_results.json[session].values() | map(attribute='reachable') | list | unique | join('') | bool)
       retries: 60
       delay: 10
