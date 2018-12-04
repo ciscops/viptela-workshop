@@ -11,6 +11,9 @@
     return_content: yes
   register: uri_results
   delegate_to: localhost
+  until: uri_results.msg.find("OK") != -1
+  retries: 60
+  delay: 10
 
 - set_fact:
     controller_deviceIP_list: "{{ uri_results.json.data | map(attribute='deviceIP') | list }}"

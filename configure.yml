@@ -26,6 +26,7 @@
 
     - ios_ping:
         dest: "{{ item }}"
+        count: 60
       loop:
         - 10.0.1.10
         - 10.100.1.10
@@ -99,7 +100,7 @@
   hosts: viptela_control
   tags:
     - control
-    - vedges
+    - vedge
   any_errors_fatal: true
   connection: netconf
   gather_facts: no
@@ -117,7 +118,7 @@
   hosts: routers
   tags:
     - control
-    - vedges
+    - vedge
     - check
   any_errors_fatal: true
   connection: network_cli
