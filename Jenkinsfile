@@ -2,7 +2,6 @@ pipeline {
     agent { dockerfile true }
     options {
       disableConcurrentBuilds()
-      ansiColor('xterm')
     }
     environment {
         VIRL_USERNAME = credentials('cpn-virl-username')
