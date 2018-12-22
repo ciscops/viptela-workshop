@@ -41,32 +41,32 @@ def main():
         }
     }
 
-    for config_file in CONFIG_FILES:
-        if os.path.exists(config_file):
-            break
+    if 'VIRL_HOST' in os.environ:
+        host = os.environ['VIRL_HOST']
+        username = os.environ['VIRL_USERNAME']
+        password = os.environ['VIRL_PASSWORD']
     else:
-        sys.stdout.write('unable to locate .virlrc\n')
-        sys.exit(-1)
+        for config_file in CONFIG_FILES:
+            if os.path.exists(config_file):
+                break
+        else:
+            sys.stdout.write('unable to locate .virlrc\n')
+            sys.exit(-1)
 
-    envre = re.compile(r'''^([^\s=]+)=(?:[\s"']*)(.+?)(?:[\s"']*)$''')
-    result = {}
-    with open(config_file) as ins:
-        for line in ins:
-            match = envre.match(line)
-            if line.startswith('#'):
-                continue
-            if match is not None:
-                result[match.group(1)] = match.group(2)
+        envre = re.compile(r'''^([^\s=]+)=(?:[\s"']*)(.+?)(?:[\s"']*)$''')
+        result = {}
+        with open(config_file) as ins:
+            for line in ins:
+                match = envre.match(line)
+                if line.startswith('#'):
+                    continue
+                if match is not None:
+                    result[match.group(1)] = match.group(2)
 
-    # print(result)
 
-    # host = os.environ['VIRL_HOST'] or result['VIRL_HOST']
-    # username = os.environ['VIRL_USERNAME'] or result['VIRL_USERNAME']
-    # password = os.environ['VIRL_PASSWORD'] or result['VIRL_PASSWORD']
-
-    host = result['VIRL_HOST']
-    username = result['VIRL_USERNAME']
-    password = result['VIRL_PASSWORD']
+        host = result['VIRL_HOST']
+        username = result['VIRL_USERNAME']
+        password = result['VIRL_PASSWORD']
 
     inventory = {
         '_meta': {
