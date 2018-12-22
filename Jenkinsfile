@@ -12,19 +12,19 @@ pipeline {
         stage('Build Workshop') {
            steps {
                 echo 'Running build.yml...'
-                ansiblePlaybook colorized: true, disableHostKeyChecking: true, playbook: 'build.yml'
+                ansible-playbook build.yml
            }
         }
         stage('Configure Workshop') {
            steps {
                 echo 'Running configure.yml...'
-                ansiblePlaybook colorized: true, disableHostKeyChecking: true, playbook: 'configure.yml'
+                ansible-playbook configure.yml
            }
         }
         stage('Clean Workshop') {
            steps {
                 echo 'Running clean.yml...'
-                ansiblePlaybook colorized: true, disableHostKeyChecking: true, playbook: 'clean.yml'
+                ansible-playbook clean.yml
            }
         }
     }
