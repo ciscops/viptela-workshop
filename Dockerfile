@@ -3,13 +3,13 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y python-pip
 
-COPY requirements.txt /data/
+COPY requirements.txt /tmp/
 
 # Install requirements.
-RUN pip install --requirement /data/requirements.txt
+RUN pip install --requirement /tmp/requirements.txt
 
 # Define working directory.
-WORKDIR /data
+WORKDIR /tmp
 
 # Define default command.
 CMD ["bash"]
