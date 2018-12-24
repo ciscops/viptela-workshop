@@ -2,6 +2,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
+        }
     }
     options {
       disableConcurrentBuilds()
