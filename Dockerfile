@@ -1,7 +1,7 @@
 # Use an official Python runtime as a parent image
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install -y python-pip
+RUN apt-get update && apt-get install -y python-pip openssh-client
 
 # Install requirements.
 COPY requirements.txt /tmp/requirements.txt

@@ -26,7 +26,7 @@ pipeline {
                 echo 'Retrieve viptela_serial_file.viptela...'
                 sh 'mkdir licences'
                 withCredentials([file(credentialsId: 'viptela_serial_file.viptela', variable: 'viptela-serial-file')]) {
-                    sh "cp \$my-public-key licences/viptela_serial_file.viptela"
+                    sh "cp \$my-public-key licenses/viptela_serial_file.viptela"
                 }
                 echo 'Running configure.yml...'
                 ansiblePlaybook disableHostKeyChecking: true, extras: '-e virl_tag=jenkins -e organization_name="${VIPTELA_ORG}"', playbook: 'configure.yml'
