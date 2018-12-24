@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y python-pip
 
-RUN useradd --uild ${UID} jenkins
+RUN useradd --uid ${UID} jenkins
 
 # Install requirements.
 COPY requirements.txt /tmp/requirements.txt
