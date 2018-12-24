@@ -2,6 +2,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
+            args  '-v /etc/passwd:/etc/passwd'
         }
     }
     options {

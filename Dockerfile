@@ -3,8 +3,6 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y python-pip
 
-RUN useradd --uid ${UID} jenkins
-
 # Install requirements.
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --requirement /tmp/requirements.txt
@@ -18,4 +16,4 @@ ENV ANSIBLE_SSH_PIPELINING True
 ENV ANSIBLE_LIBRARY ./library
 
 # Define default command.
-CMD ["bash"]s
+CMD ["bash"]
