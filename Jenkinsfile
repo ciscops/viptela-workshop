@@ -20,8 +20,8 @@ pipeline {
                 echo 'Retrieve viptela_serial_file.viptela...'
                 sh 'mkdir licenses'
                 withCredentials([file(credentialsId: 'viptela-serial-file', variable: 'viptela-serial-file')]) {
-                    echo $viptela-serial-file
-                    sh 'cp $viptela-serial-file licenses/viptela_serial_file.viptela'
+                    echo \$viptela-serial-file
+                    sh 'cp \$viptela-serial-file licenses/viptela_serial_file.viptela'
                 }
             }
         }
