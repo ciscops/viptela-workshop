@@ -3,8 +3,11 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y python-pip
 
+
+
 # Install requirements.
-RUN pip install --requirement requirements.txt
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --requirement /tmp/requirements.txt
 
 # Define working directory.
 ENV ANSIBLE_GATHERING smart
