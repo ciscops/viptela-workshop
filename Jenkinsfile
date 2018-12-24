@@ -15,15 +15,6 @@ pipeline {
         VIPTELA_ORG = credentials('viptela-org')
     }
     stages {
-        stage('Prepare Workspace') {
-            steps {
-                echo 'Retrieve viptela_serial_file.viptela...'
-                sh 'mkdir licenses'
-                withCredentials([file(credentialsId: 'viptela_serial_file.viptela', variable: 'viptela-serial-file')]) {
-                    sh "cp \$my-public-key licenses/viptela_serial_file.viptela"
-                }
-            }
-        }
         stage('Build Workshop') {
            steps {
                 echo 'Running build.yml...'
@@ -33,13 +24,9 @@ pipeline {
         stage('Configure Workshop') {
            steps {
                 echo 'Running configure.yml...'
-                ansiblePlaybook disableHostKeyChecking: true, extras: '-e virl_tag=jenkins -e organization_name="${VIPTELA_ORG}"', playbook: 'configure.yml'
-           }
-        }
-        stage('Clean Workshop') {
-           steps {
-                echo 'Running clean.yml...'
-                ansiblePlaybook disableHostKeyChecking: true, extras: "-e virl_tag=jenkins", playbook: 'clean.yml'
+                withCredentials([file(credentialsId: 'viptela_serial_file.viptela', variable: 'viptela-serial-file')]) {
+                    ansiblePlaybook disableHostKeyChecking: true, extras: '-e virl_tag=jenkins -e organization_name="${VIPTELA_ORG}" -e serial_number_file=$viptela-serial-file', playbook: 'configure.yml'
+                }
            }
         }
     }
