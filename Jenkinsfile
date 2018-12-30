@@ -13,7 +13,7 @@ pipeline {
         VIRL_PASSWORD = credentials('cpn-virl-password')
         VIRL_HOST = credentials('cpn-virl-host')
         VIPTELA_ORG = credentials('viptela-org')
-        HOME = ${WORKSPACE}
+        HOME = "${WORKSPACE}"
     }
     stages {
         stage('Prepare Workspace') {
