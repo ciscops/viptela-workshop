@@ -8,6 +8,9 @@ pipeline {
     options {
       disableConcurrentBuilds()
     }
+    triggers {
+      cron('H 2 * * 1-5')
+    }
     environment {
         VIRL_USERNAME = credentials('cpn-virl-username')
         VIRL_PASSWORD = credentials('cpn-virl-password')
