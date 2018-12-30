@@ -14,6 +14,7 @@ pipeline {
         VIRL_HOST = credentials('cpn-virl-host')
         VIPTELA_ORG = credentials('viptela-org')
         HOME = "${WORKSPACE}"
+        DEFAULT_LOCAL_TMP = "${WORKSPACE}/ansible"
     }
     stages {
         stage('Prepare Workspace') {
