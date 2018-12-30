@@ -17,15 +17,6 @@ pipeline {
         DEFAULT_LOCAL_TMP = "${WORKSPACE}/ansible"
     }
     stages {
-        stage('Prepare Workspace') {
-            steps {
-                echo 'Retrieve viptela_serial_file.viptela...'
-                sh 'mkdir -p licenses'
-                withCredentials([file(credentialsId: 'viptela-serial-file', variable: 'VIPTELA_SERIAL_FILE')]) {
-                    sh 'cp ${VIPTELA_SERIAL_FILE} licenses/viptela_serial_file.viptela'
-                }
-            }
-        }
         stage('Build Workshop') {
            steps {
                 echo 'Running build.yml...'
@@ -35,7 +26,9 @@ pipeline {
        stage('Configure Workshop') {
            steps {
                 echo 'Running configure.yml...'
-                ansiblePlaybook disableHostKeyChecking: true, extras: '-e virl_tag=jenkins -e organization_name="${VIPTELA_ORG}"', playbook: 'configure.yml'
+                withCredentials([file(credentialsId: 'viptela-serial-file', variable: 'VIPTELA_SERIAL_FILE')]) {
+                    ansiblePlaybook disableHostKeyChecking: true, extras: '-e virl_tag=jenkins -e organization_name="${VIPTELA_ORG}" -e serial_number_file=${VIPTELA_SERIAL_FILE}', playbook: 'configure.yml'
+                }
            }
         }
     }
@@ -46,3 +39,4 @@ pipeline {
         }
     }
 }
+
