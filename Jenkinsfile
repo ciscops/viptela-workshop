@@ -20,7 +20,7 @@ pipeline {
         stage('Prepare Workspace') {
             steps {
                 echo 'Retrieve viptela_serial_file.viptela...'
-                sh 'mkdir licenses'
+                sh 'mkdir -p licenses'
                 withCredentials([file(credentialsId: 'viptela-serial-file', variable: 'VIPTELA_SERIAL_FILE')]) {
                     sh 'cp ${VIPTELA_SERIAL_FILE} licenses/viptela_serial_file.viptela'
                 }
