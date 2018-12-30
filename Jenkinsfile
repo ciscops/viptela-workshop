@@ -26,6 +26,7 @@ pipeline {
        stage('Configure Workshop') {
            steps {
                 echo 'Running configure.yml...'
+                sh 'pwd'
                 withCredentials([file(credentialsId: 'viptela-serial-file', variable: 'VIPTELA_SERIAL_FILE')]) {
                     ansiblePlaybook disableHostKeyChecking: true, extras: '-e virl_tag=jenkins -e organization_name="${VIPTELA_ORG}" -e serial_number_file=${VIPTELA_SERIAL_FILE}', playbook: 'configure.yml'
                 }
