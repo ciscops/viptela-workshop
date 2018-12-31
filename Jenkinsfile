@@ -36,13 +36,11 @@ pipeline {
            }
         }
     }
-/*
     post {
         always {
             ansiblePlaybook disableHostKeyChecking: true, extras: "-e virl_tag=jenkins", playbook: 'clean.yml'
             cleanWs()
         }
     }
-*/
 }
 
