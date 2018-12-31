@@ -7,6 +7,7 @@ pipeline {
     }
     options {
       disableConcurrentBuilds()
+      lock resource: 'viptela-workshop-testbed'
     }
     triggers {
       cron('H 2 * * 1-5')
