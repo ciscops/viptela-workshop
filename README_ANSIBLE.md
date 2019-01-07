@@ -77,6 +77,6 @@ ansible-playbook clean.yml
 ```
 
 This playbook will:
-* Remove the devices from the `known_hosts` file
+* Remove topology devices from the `known_hosts` file
 * Remove the `myCA` directory
 * Destroy the topology specified in the .virlrc file
