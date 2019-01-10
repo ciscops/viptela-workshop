@@ -20,9 +20,15 @@ Want the Presentation Deck?  Its right here:
 - [Exercise 3.0 - Backing up the router configuration](./exercises/3-0)
 - [Exercise 3.1 - Using Ansible to restore the backed up configuration](./exercises/3-1)
 
-### Section 04 - Using Ansible to configure via NETCONF and CLI
-- [Exercise 4.0 - Updating the router configurations using Ansible](./exercises/4-0)
-- [Exercise 4.1 - An introduction to templating with Jinja2](./exercises/4-1)
+### Section 04 - Using Ansible to configure via CLI and NETCONF
+- [Exercise 4.0 - Configure the router configurations using CLI](./exercises/4-0)
+- [Exercise 4.1 - Configure the router configurations using NETCONF](./exercises/4-1)
+- [Exercise 4.2 - An introduction to templating with Jinja2](./exercises/4-2)
+
+### Section 05 - Bring up the Viptela Overlay Network
+- [Exercise 5.0 - Bring up the Viptela Control Plane](./exercises/5-0)
+- [Exercise 5.1 - Bring up the Viptela Edge](./exercises/5-1)
+
 
 ### Poop
 - [Exercise 4.2 - Building dynamic documentation using the command parser](./exercises/3-1)

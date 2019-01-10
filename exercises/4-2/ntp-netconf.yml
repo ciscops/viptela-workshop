@@ -1,0 +1,7 @@
+- hosts: routers
+  connection: netconf
+  gather_facts: no
+  tasks:
+    - netconf_rpc:
+        rpc: edit-config
+        content: "{{ lookup('template', 'ntp-netconf.j2') }}"
