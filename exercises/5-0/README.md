@@ -1,6 +1,11 @@
 # Exercise 5.0 -  Configure the Viptela control plane
 
-There are two ways to specify the org name for the tooling.  First, pass in as an extra var: 
+## Requirements
+
+* A license file located at `licenses\viptela_serial_file.viptela`
+* The organization name associated with the license file.
+
+There are two ways to specify the organization name for the tooling.  First, pass in as an extra var: 
 
 ```
 ansible-playbook configure.yml -e 'organization_name="<your org name>"'

@@ -1,4 +1,4 @@
-# Exercise 4.0 - Updating the router configurations using Ansible
+# Exercise 4.0 - Updating the router configuration with CLI
 
 Using Ansible you can update the configuration of routers either by pushing a configuration file to the device or you can push configuration lines directly to the device.
 
@@ -11,18 +11,17 @@ Create a new file called `router_configs.yml` with the following play and task t
 ```
 
 ---
-- name: SNMP RO/RW STRING CONFIGURATION
+- name: CONFIGURE ROUTERS
   hosts: routers
   gather_facts: no
   connection: network_cli
 
   tasks:
 
-    - name: ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT
+    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       ios_config:
-        commands:
-          - snmp-server community ansible-public RO
-          - snmp-server community ansible-private RW
+        lines:
+          - ntp server 192.5.41.40
 ```
 
 Run the playbook:
@@ -82,20 +81,18 @@ Now update the task to add one more SNMP RO community string:
 ``` yaml
 
 ---
-- name: UPDATE THE SNMP RO/RW STRINGS
+- name:CONFIGURE ROUTERS
   hosts: routers
   gather_facts: no
   connection: network_cli
 
   tasks:
 
-    - name: ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT
+    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       ios_config:
-        commands:
-          - snmp-server community ansible-public RO
-          - snmp-server community ansible-private RW
-          - snmp-server community ansible-test RO
-
+        lines:
+          - ntp server 192.5.41.40
+          - ntp server 192.5.41.41
 ```
 
 
@@ -182,19 +179,18 @@ playbook with a task to push the configurations in the `secure_router.cfg` file 
 ``` yaml
 
 ---
-- name: UPDATE THE SNMP RO/RW STRINGS
+- name: CONFIGURE ROUTERS
   hosts: routers
   gather_facts: no
   connection: network_cli
 
   tasks:
 
-    - name: ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT
+    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       ios_config:
-        commands:
-          - snmp-server community ansible-public RO
-          - snmp-server community ansible-private RW
-          - snmp-server community ansible-test RO
+        lines:
+          - ntp server 192.5.41.40
+          - ntp server 192.5.41.41
 
 
 - name: HARDEN IOS ROUTERS

@@ -1,21 +1,20 @@
 ---
-- name: UPDATE THE SNMP RO/RW STRINGS
-  hosts: cisco
+- name: CONFIGURE ROUTERS
+  hosts: routers
   gather_facts: no
   connection: network_cli
 
   tasks:
 
-    - name: ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT
+    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       ios_config:
-        commands:
-          - snmp-server community ansible-public RO
-          - snmp-server community ansible-private RW
-          - snmp-server community ansible-test RO
+        lines:
+          - ntp server 192.5.41.40
+          - ntp server 192.5.41.41
 
 
 - name: HARDEN IOS ROUTERS
-  hosts: cisco
+  hosts: routers
   gather_facts: no
   connection: network_cli
 

@@ -1,7 +1,0 @@
-- hosts: routers
-  connection: network_cli
-  gather_facts: no
-  tasks:
-    - ios_config:
-        lines:
-          - ntp server 1.1.1.1

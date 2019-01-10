@@ -9,8 +9,8 @@ Want the Presentation Deck?  Its right here:
 ## Network Automation Exercises
 
 ### Section 01 - Spinning up the Workshop topology in VIRL
-- [Exercise 1.0 - Exploring the workshop environment](./exercises/1-0)
-- [Exercise 1.1 - Building the topology](./exercises/1-1)
+- [Exercise 1.0 - Building the topology](./exercises/1-0)
+- [Exercise 1.1 - Exploring the workshop environment](./exercises/1-1)
 
 ### Section 02 - Using Ansible to gather data from network devices
 - [Exercise 2.0 - Writing your first playbook](./exercises/2-0)
