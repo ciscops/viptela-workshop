@@ -6,7 +6,7 @@ This content is a multi-purpose toolkit for effectively demonstrating Ansible's 
 Want the Presentation Deck?  Its right here:
 [Ansible Networking Linklight Deck](../../decks/ansible-networking_v2.html)
 
-## Ansible Network Automation Exercises
+## Network Automation Exercises
 
 ### Section 01 - Spinning up the Workshop topology in VIRL
 - [Exercise 1.0 - Exploring the workshop environment](./exercises/1-0)
@@ -16,14 +16,16 @@ Want the Presentation Deck?  Its right here:
 - [Exercise 2.0 - Writing your first playbook](./exercises/2-0)
 - [Exercise 2.1 - Module documentation, Registering output & tags](./exercises/2-1)
 
-### Section 03 - Using Ansible to configure, backup and restore
-- [Exercise 2.0 - Updating the router configurations using Ansible](./exercises/3-0)
-- [Exercise 2.1 - Backing up the router configuration](./exercises/3-1)
-- [Exercise 2.2 - Using Ansible to restore the backed up configuration](./exercises/3-2)
+### Section 03 - Using Ansible to backup, and restore
+- [Exercise 3.0 - Backing up the router configuration](./exercises/3-0)
+- [Exercise 3.1 - Using Ansible to restore the backed up configuration](./exercises/3-1)
 
-### Section 04 - Using Ansible to parse information for reporting
-- [Exercise 3.0 - An introduction to templating with Jinja2](./exercises/3-0)
-- [Exercise 3.1 - Building dynamic documentation using the command parser](./exercises/3-1)
+### Section 04 - Using Ansible to configure via NETCONF and CLI
+- [Exercise 4.0 - Updating the router configurations using Ansible](./exercises/4-0)
+- [Exercise 4.1 - An introduction to templating with Jinja2](./exercises/4-1)
+
+### Poop
+- [Exercise 4.2 - Building dynamic documentation using the command parser](./exercises/3-1)
 
 ## Network Diagram
 ![Red Hat Ansible Automation](../../images/network_diagram.png)

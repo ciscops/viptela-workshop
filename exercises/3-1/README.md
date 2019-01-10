@@ -1,287 +1,228 @@
-# Exercise 2.1 - Backing up the router configuration
+# Exercise 2.2 - Using Ansible to restore the backed up configuration
 
 
-In this realistic scenario,  you will create a playbook to back-up Cisco router configurations. In subsequent labs we will use this backed up configuration, to restore devices to their known good state.
+In the previous lab you learned how to backup the configuration of the 4 cisco routers. In this lab you will learn how to restore the configuration. The backups had been saved into a local directory called `backup`.
 
-> Note: Since this is a common day 2 operation for most network teams, you can pretty much re-use most of this content for your environment with minimum changes.
+
+```
+backup
+├── core.config
+├── core_config.2019-01-09@13:51:16
+├── hq.config
+├── hq_config.2019-01-09@13:51:16
+├── internet.config
+├── internet_config.2019-01-09@13:51:16
+├── sp1.config
+└── sp1_config.2019-01-09@13:51:16
+```
+
+
+Our objective is to apply this "last known good configuraion backup" to the routers.
 
 #### Step 1
 
-Create a new file called `backup.yml` using your favorite text editor and add the following:
+
+On one of the routers (`core`) manually make a change. For instance add a new loopback interface.
+
+Log into `core` and add the following:
+
+```
+core#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+core(config)#interface loopback 101
+core(config-if)#ip address 169.1.1.1 255.255.255.255
+core(config-if)#end
+```
+
+Now verify the newly created Loopback Interface
+
+```
+core#sh run interface loopback 101
+Building configuration...
+
+Current configuration : 67 bytes
+!
+interface Loopback101
+ ip address 169.1.1.1 255.255.255.255
+end
+```
+#### Step 2
+
+Step 1 simulates our "Out of process/band" changes on the network. This change needs to be reverted. So let's write a new playbook to apply the backup we collected from our previous lab to achieve this.
+
+Create a playbook called `restore_config.yml` with a task to copy over the previously backed up configuration file to the routers:
+
 
 ``` yaml
 
 ---
-- name: BACKUP ROUTER CONFIGURATIONS
+- name: RESTORE CONFIGURATION
   hosts: routers
   connection: network_cli
   gather_facts: no
 
   tasks:
-    - name: BACKUP THE CONFIG
+    - name: ENABLE SCP ON THE ROUTER
       ios_config:
-        backup: yes
-      register: config_output
+        lines:
+          - ip scp server enable
+
+    - name: COPY RUNNING CONFIG TO ROUTER
+      net_put:
+        src: ./backup/{{inventory_hostname}}.config
+        dest: "bootflash:/{{inventory_hostname}}.config"
 ```
 
-The `ios_config` Ansible module is used to back up the configuration of all devices defined in `router` group.
-
-The `backup` parameter automatically creates a directory called `backup` within the playbook root and saves a time-stamped backup of the running configuration.
-
-> Note: Use **ansible-doc ios_config** or check out **docs.ansible.com** for help on the module usage.
-
-
-Why are we capturing the output of this task into a variable called `config_output`? **Step 2** will reveal this.
-
+> Note the use of the **inventory_hostname** variable. For each device in the inventory file under the cisco group, this task will secure copy (scp) over the file that corresponds to the device name onto the bootflash: of the CSR devices.
 
 Now run the playbook:
 
-``` shell
-$ ansible-playbook backup.yml
+```
+$ ansible-playbook restore_config.yml
 
-PLAY [BACKUP ROUTER CONFIGURATIONS] ************************************************************************************************************
+PLAY [RESTORE CONFIGURATION] *******************************************************************************************************************
 
-TASK [BACKUP THE CONFIG] ***********************************************************************************************************************
-ok: [sp1]
-ok: [internet]
-ok: [hq]
-ok: [core]
+TASK [ENABLE SCP ON THE ROUTER] ****************************************************************************************************************
+changed: [core]
+changed: [hq]
+changed: [internet]
+changed: [sp1]
+
+TASK [COPY RUNNING CONFIG TO ROUTER] ***********************************************************************************************************
+changed: [core]
+changed: [sp1]
+changed: [internet]
+changed: [hq]
 
 PLAY RECAP *************************************************************************************************************************************
-core                       : ok=1    changed=0    unreachable=0    failed=0
-hq                         : ok=1    changed=0    unreachable=0    failed=0
-internet                   : ok=1    changed=0    unreachable=0    failed=0
-sp1                        : ok=1    changed=0    unreachable=0    failed=0
+core                       : ok=2    changed=2    unreachable=0    failed=0
+hq                         : ok=2    changed=2    unreachable=0    failed=0
+internet                   : ok=2    changed=2    unreachable=0    failed=0
+sp1                        : ok=2    changed=2    unreachable=0    failed=0
 ```
 
 
-The playbook should now have created a directory called `backup`. Now, list the contents of this directory:
+#### Step 5
 
+Log into `core` and add do a directory listing:
 
-``` shell
-$ ls -l backup
-total 64
--rw-r--r--  1 stevenca  staff  4844 Jan  9 13:38 core_config.2019-01-09@13:38:05
--rw-r--r--  1 stevenca  staff  5419 Jan  9 13:38 hq_config.2019-01-09@13:38:05
--rw-r--r--  1 stevenca  staff  5353 Jan  9 13:38 internet_config.2019-01-09@13:38:05
--rw-r--r--  1 stevenca  staff  4768 Jan  9 13:38 sp1_config.2019-01-09@13:38:05
+> Note **core.config** at the bottom of the bootflash:/ directory
+
+```
+core#dir
+Directory of bootflash:/
+
+   11  drwx            16384  Sep 21 2017 14:26:24 +00:00  lost+found
+873121  drwx             4096  Sep 21 2017 14:27:06 +00:00  .super.iso.dir
+554881  drwx             4096  Sep 21 2017 14:27:01 +00:00  .installer
+   12  -rw-               31   Jan 9 2019 11:36:47 +00:00  .CsrLxc_LastInstall
+   13  -rw-               69   Jan 9 2019 11:36:48 +00:00  virtual-instance.conf
+905761  drwx             4096   Jan 9 2019 11:35:43 +00:00  core
+   15  -rw-        125696000  Sep 21 2017 14:27:06 +00:00  iosxe-remote-mgmt.16.06.01.ova
+938403  -rw-        369701848  Sep 21 2017 14:27:27 +00:00  csr1000v-mono-universalk9.16.06.01.SPA.pkg
+938404  -rw-         40067508  Sep 21 2017 14:27:35 +00:00  csr1000v-rpboot.16.06.01.SPA.pkg
+938402  -rw-             2787  Sep 21 2017 14:27:35 +00:00  packages.conf
+416161  drwx             4096   Jan 9 2019 11:35:37 +00:00  .prst_sync
+375361  drwx             4096   Jan 9 2019 11:35:44 +00:00  .rollback_timer
+807841  drwx             4096   Jan 9 2019 11:36:54 +00:00  virtual-instance
+   16  -rw-               30   Jan 9 2019 11:36:38 +00:00  throughput_monitor_params
+   17  -rw-             8779   Jan 9 2019 11:36:57 +00:00  cvac.log
+   18  -rw-               16   Jan 9 2019 11:36:47 +00:00  ovf-env.xml.md5
+   19  -rw-               16   Jan 9 2019 11:36:47 +00:00  .cvac_skip_once
+   20  -rw-             1707   Jan 9 2019 11:36:58 +00:00  csrlxc-cfg.log
+636481  drwx             4096   Jan 9 2019 11:36:56 +00:00  onep
+   14  -rw-             4783   Jan 9 2019 19:34:47 +00:00  core.config
+
+16420106240 bytes total (14520115200 bytes free)
 ```
 
-Feel free to open up these files to validate their content.
 
-#### Step 2
+#### Step 6
 
-Since we will be using the backed up configurations as a source to restore the configuration. Let's rename them to reflect the device name.
-
-In **Step 1** you captured the output of the task into a variable called `config_output`. This variable contains the name of the backup file. Use the `copy` Ansible module to make a copy of this file.
+Now that the known good configuration is on the destination devices, add a new task to the playbook to replace the running configuration with the one we copied over.
 
 
 ``` yaml
 
 ---
-- name: BACKUP ROUTER CONFIGURATIONS
-  hosts: cisco
+- name: RESTORE CONFIGURATION
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
   tasks:
-    - name: BACKUP THE CONFIG
+    - name: ENABLE SCP ON THE ROUTER
       ios_config:
-        backup: yes
-      register: config_output
+        lines:
+          - ip scp server enable
 
-    - name: RENAME BACKUP
-      copy:
-        src: "{{config_output.backup_path}}"
-        dest: "./backup/{{inventory_hostname}}.config"
+    - name: COPY RUNNING CONFIG TO ROUTER
+      net_put:
+        src: ./backup/{{inventory_hostname}}.config
+        dest: "bootflash:/{{inventory_hostname}}.config"
 
+    - name: CONFIG REPLACE
+      ios_command:
+        commands:
+          - config replace flash:{{inventory_hostname}}.config force
 ```
 
-Re-run the playbook:
+
+> Note: Here we take advantage of Cisco's **archive** feature. The config replace will only update the differences to the router and not really a full config replace.
 
 
-``` shell
-$ ansible-playbook backup.yml
+Let's run the updated playbook:
 
-PLAY [BACKUP ROUTER CONFIGURATIONS] ************************************************************************************************************
+```
+$ ansible-playbook restore_config.yml
 
-TASK [BACKUP THE CONFIG] ***********************************************************************************************************************
-ok: [sp1]
-ok: [hq]
-ok: [core]
-ok: [internet]
+PLAY [RESTORE CONFIGURATION] *******************************************************************************************************************
 
-TASK [RENAME BACKUP] ***************************************************************************************************************************
-changed: [sp1]
-changed: [core]
+TASK [ENABLE SCP ON THE ROUTER] ****************************************************************************************************************
 changed: [hq]
+changed: [core]
 changed: [internet]
+changed: [sp1]
 
-PLAY RECAP *************************************************************************************************************************************
-core                       : ok=2    changed=1    unreachable=0    failed=0
-hq                         : ok=2    changed=1    unreachable=0    failed=0
-internet                   : ok=2    changed=1    unreachable=0    failed=0
-sp1                        : ok=2    changed=1    unreachable=0    failed=0
-```
-
-Once again list the contents of the `backup` directory:
-
-``` shell
-$ ls -l backup
-total 128
--rw-r--r--  1 stevenca  staff  4844 Jan  9 13:41 core.config
--rw-r--r--  1 stevenca  staff  4844 Jan  9 13:41 core_config.2019-01-09@13:41:55
--rw-r--r--  1 stevenca  staff  5419 Jan  9 13:41 hq.config
--rw-r--r--  1 stevenca  staff  5419 Jan  9 13:41 hq_config.2019-01-09@13:41:55
--rw-r--r--  1 stevenca  staff  5353 Jan  9 13:41 internet.config
--rw-r--r--  1 stevenca  staff  5353 Jan  9 13:41 internet_config.2019-01-09@13:41:55
--rw-r--r--  1 stevenca  staff  4768 Jan  9 13:41 sp1.config
--rw-r--r--  1 stevenca  staff  4768 Jan  9 13:41 sp1_config.2019-01-09@13:41:55
-```
-
-Notice that the directory now has another backed-up configuration but one that reflects the device's name.
-
-
-#### Step 3
-
-If we were to try and manually restore the contents of this file to the respective device there are two lines in the configuration that will raise errors:
-
-``` shell
-Building configuration...
-
-Current configuration with default configurations exposed : 393416 bytes
-
-```
-These lines have to be "cleaned up" to have a restorable configuration.
-
-Write a new task using Ansible's `lineinfile` module to remove the first line.
-
-
-``` yaml
-
----
-- name: BACKUP ROUTER CONFIGURATIONS
-  hosts: cisco
-  connection: network_cli
-  gather_facts: no
-
-  tasks:
-    - name: BACKUP THE CONFIG
-      ios_config:
-        backup: yes
-      register: config_output
-
-    - name: RENAME BACKUP
-      copy:
-        src: "{{config_output.backup_path}}"
-        dest: "./backup/{{inventory_hostname}}.config"
-
-    - name: REMOVE NON CONFIG LINES
-      lineinfile:
-        path: "./backup/{{inventory_hostname}}.config"
-        line: "Building configuration..."
-        state: absent
-```
-
-
-> Note: The module parameter **line** is matching an exact line in the configuration file "Building configuration..."
-
-
-Before we run the playbook, we need to add one more task to remove the second line "Current configuration ...etc". Since this line has a variable entity (the number of bytes), we cannot use the `line` parameter of the `lineinfile` module. Instead, we'll use the `regexp` parameter to match on regular expressions and remove the line in the file:
-
-
-``` yaml
-
----
-- name: BACKUP ROUTER CONFIGURATIONS
-  hosts: cisco
-  connection: network_cli
-  gather_facts: no
-
-  tasks:
-    - name: BACKUP THE CONFIG
-      ios_config:
-        backup: yes
-      register: config_output
-
-    - name: RENAME BACKUP
-      copy:
-        src: "{{config_output.backup_path}}"
-        dest: "./backup/{{inventory_hostname}}.config"
-
-    - name: REMOVE NON CONFIG LINES
-      lineinfile:
-        path: "./backup/{{inventory_hostname}}.config"
-        line: "Building configuration..."
-        state: absent
-
-    - name: REMOVE NON CONFIG LINES - REGEXP
-      lineinfile:
-        path: "./backup/{{inventory_hostname}}.config"
-        regexp: 'Current configuration.*'
-        state: absent                        
-```
-
-Now run the playbook:
-
-``` shell
-$ ansible-playbook backup.yml
-
-PLAY [BACKUP ROUTER CONFIGURATIONS] ************************************************************************************************************
-
-TASK [BACKUP THE CONFIG] ***********************************************************************************************************************
+TASK [COPY RUNNING CONFIG TO ROUTER] ***********************************************************************************************************
 ok: [sp1]
 ok: [core]
 ok: [hq]
 ok: [internet]
 
-TASK [RENAME BACKUP] ***************************************************************************************************************************
-changed: [core]
-changed: [sp1]
-changed: [internet]
-changed: [hq]
-
-TASK [REMOVE NON CONFIG LINES] *****************************************************************************************************************
-changed: [core]
-changed: [sp1]
-changed: [hq]
-changed: [internet]
-
-TASK [REMOVE NON CONFIG LINES - REGEXP] ********************************************************************************************************
-changed: [core]
-changed: [sp1]
-changed: [hq]
-changed: [internet]
+TASK [CONFIG REPLACE] **************************************************************************************************************************
+ok: [internet]
+ok: [sp1]
+ok: [core]
+ok: [hq]
 
 PLAY RECAP *************************************************************************************************************************************
-core                       : ok=4    changed=3    unreachable=0    failed=0
-hq                         : ok=4    changed=3    unreachable=0    failed=0
-internet                   : ok=4    changed=3    unreachable=0    failed=0
-sp1                        : ok=4    changed=3    unreachable=0    failed=0
+core                       : ok=3    changed=1    unreachable=0    failed=0
+hq                         : ok=3    changed=1    unreachable=0    failed=0
+internet                   : ok=3    changed=1    unreachable=0    failed=0
+sp1                        : ok=3    changed=1    unreachable=0    failed=0
 ```
 
 
-Use an editor to view the cleaned up files. The first 2 lines that we cleaned up in the earlier tasks should be absent:
+#### Step 8
 
-``` shell
-$ head -n 10 backup/core.config
+Validate that the new loopback interface we added in **Step 1**  is no longer on the device.
 
-!
-! Last configuration change at 18:30:15 UTC Wed Jan 9 2019 by admin
-!
-version 16.6
-service tcp-keepalives-in
-service tcp-keepalives-out
-service timestamps debug datetime msec
-service timestamps log datetime msec
-service password-encryption
+
+```
+core#show ip int brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       192.133.178.89  YES DHCP   up                    up
+GigabitEthernet2       10.0.255.2      YES TFTP   up                    up
+GigabitEthernet3       10.0.1.1        YES TFTP   up                    up
+GigabitEthernet4       10.0.255.5      YES TFTP   up                    up
 ```
 
-> Note: The **head** unix command will display the first N lines specified as an argument.
+The output above shows that the Loopback 101 interface is no longer present, you have successfully backed up and restored configurations on your Cisco routers!
 
 # Complete
 
-You have completed lab exercise 2.1
+You have completed lab exercise 2.2
 
 ---
 [Click Here to return to the Ansible Linklight - Networking Workshop](../../README.md)
