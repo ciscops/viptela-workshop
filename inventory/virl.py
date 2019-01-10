@@ -91,8 +91,6 @@ def main():
 
         url = "http://%s:19399/simengine/rest/interfaces/%s" % (host, simulation)
 
-        # print "Fetching: %s" % url
-
         # perform REST operation
         simulations = requests.get(url, auth=(username,password))
         if simulations.status_code == 200:

@@ -5,12 +5,27 @@ pipeline {
             args  '-v /etc/passwd:/etc/passwd'
         }
     }
+    scm {
+        git {
+            remote {
+                github('ciscops/viptela-workshop')
+                refspec('+refs/pull/*:refs/remotes/origin/pr/*')
+            }
+            branch('${sha1}')
+        }
+    }
+    triggers {
+        githubPullRequest {
+            admin('stevenca')
+            admins(['chrishocker', 'jasonking3'])
+            cron('H 2 * * *')
+            triggerPhrase('.*(re)?run tests.*')
+            onlyTriggerPhrase()
+            useGitHubHooks()
+    }
     options {
       disableConcurrentBuilds()
       lock resource: 'viptela-workshop-testbed'
-    }
-    triggers {
-      cron('H 2 * * 1-5')
     }
     environment {
         VIRL_USERNAME = credentials('cpn-virl-username')
