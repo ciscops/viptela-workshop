@@ -13,16 +13,14 @@ There are 2 options.
 On the control host read the documentation about the `ios_facts` module and the `debug` module.
 
 
-```
+```shell
 [student1@ansible networking-workshop]$ ansible-doc debug
-
 ```
 
 What happens when you use `debug` without specifying any parameter?
 
-```
+```shell
 [student1@ansible networking-workshop]$ ansible-doc ios_facts
-
 ```
 
 How can you limit the facts collected ?
@@ -34,7 +32,7 @@ In the previous section, you learned how to use the `ios_facts` module to collec
 
 The `ios_command` module allows you to do that. Go ahead and add another task to the playbook to collect the output of 2 _show_ commands to collect the **hostname** and the output of the `show ip interface brief` commands:
 
-```
+```yaml
 
 ---
 - name: GATHER INFORMATION FROM ROUTERS
@@ -69,7 +67,7 @@ Before running the playbook, add a `tag` to the last task. Name it "show"
 > Note: Tags can be added to tasks, plays or roles within a playbook. You can assign one or more tags to any given task/play/role. Tags allow you to selectively run parts of the playbook.
 
 
-``` yaml
+```yaml
 
 ---
 - name: GATHER INFORMATION FROM ROUTERS
@@ -100,7 +98,7 @@ Before running the playbook, add a `tag` to the last task. Name it "show"
 
 Now, selectively run the last task within the playbook using the `--tags` option:
 
-```
+```bash
 $ ansible-playbook gather_ios_data.yml --tags=show
 
 PLAY [GATHER INFORMATION FROM ROUTERS] *********************************************************************************************************
