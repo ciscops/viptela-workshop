@@ -1,10 +1,8 @@
 # Viptela Automation Workshop
 
-This content is a multi-purpose toolkit for effectively demonstrating Ansible's capabilities on network equipment (Arista, Cisco, Cumulus, Juniper etc) or providing informal workshop training in various forms -- instructor-led, hands-on or self-paced.
-
-## Presentation
-Want the Presentation Deck?  Its right here:
-[Ansible Networking Linklight Deck](../../decks/ansible-networking_v2.html)
+This is the network automation version of the [Viptela SDX Workshop](README.md).  It is not meant to be an exhaustive treatment
+of any of the technologies presented, but an application of those technologies to a real-world use case for automation.  In order
+to get the most from this workshop, we recommend these [pre-requisites](devnet_courses.md) from [Cisco DevNet](https://developer.cisco.com/).
 
 ## Network Automation Exercises
 
@@ -32,9 +30,6 @@ Want the Presentation Deck?  Its right here:
 ### Section 06 - Clean up the workshop topoloigy
 - [Exercise 6.0 - Clean up the workshop topoloigy](./exercises/6-0)
 
-## Network Diagram
-![Red Hat Ansible Automation](../../images/network_diagram.png)
-
 ## Additional information
  - [Network Automation with Ansible Homepage](https://www.ansible.com/network-automation)
  - [List of Networking Ansible Modules](http://docs.ansible.com/ansible/latest/list_of_network_modules.html)
@@ -42,6 +37,3 @@ Want the Presentation Deck?  Its right here:
  - [Network Automation GitHub Repo](https://github.com/network-automation)
 
 ---
-![Red Hat Ansible Automation](../../images/networkautomation.png)
-
-- [Red Hat® Ansible® Network Automation](https://www.ansible.com/networking): automate networking devices from Arista (EOS), Cisco (IOS, IOS XR, NX-OS), Juniper (JunOS), Open vSwitch, and VyOS and many more! Includes [Ansible Tower](https://www.ansible.com/tower) curated content specifically for network use cases.
