@@ -1,4 +1,4 @@
-# Exercise 2.0 - Updating the router configurations using Ansible
+# Exercise 4.0 - Updating the router configurations using Ansible
 
 Using Ansible you can update the configuration of routers either by pushing a configuration file to the device or you can push configuration lines directly to the device.
 

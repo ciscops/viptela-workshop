@@ -1,4 +1,4 @@
-# Configure the Viptela vEdges
+# Exercise 5.1 - Configure the Viptela vEdges
 
 
 The playbook can be run with tags to only perform certain stages.  For example:

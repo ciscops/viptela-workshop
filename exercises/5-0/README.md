@@ -1,4 +1,4 @@
-# Configure the Viptela control plane
+# Exercise 5.0 -  Configure the Viptela control plane
 
 There are two ways to specify the org name for the tooling.  First, pass in as an extra var: 
 

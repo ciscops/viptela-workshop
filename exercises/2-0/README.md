@@ -1,4 +1,4 @@
-# Exercise 1.1 - Writing your first playbook
+# Exercise 2.0 - Writing your first playbook
 
 Now that you have a fundamental grasp of the inventory file and the group/host variables, this section will walk you through building a playbook.
 

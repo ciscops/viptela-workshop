@@ -1,4 +1,4 @@
-# Exercise 2.1 - Backing up the router configuration
+# Exercise 3.0 - Backing up the router configuration
 
 
 In this realistic scenario,  you will create a playbook to back-up Cisco router configurations. In subsequent labs we will use this backed up configuration, to restore devices to their known good state.

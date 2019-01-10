@@ -1,4 +1,4 @@
-# Clean up the Topology
+# Exercise 6.0 - Clean up the Topology
 ```
 ansible-playbook clean.yml
 ```
