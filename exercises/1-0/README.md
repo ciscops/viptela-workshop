@@ -34,6 +34,8 @@ VIRL_PASSWORD=guest
 VIRL_HOST=your.virl.server
 ```
 
+>Note: your values will be different.
+
 Run the `build` playbook to the build the topology:
 ``` shell
 ansible-playbook build.yml
@@ -48,8 +50,8 @@ This playbook will:
 ansible-playbook build.yml -e topo_file=other_topology.virl
 ```
 
-# Complete
+## Complete
 
 You have completed lab exercise 1.0
 
-[Click Here to return to the Viptela Networking Automation Workshop](README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)

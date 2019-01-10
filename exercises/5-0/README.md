@@ -31,3 +31,9 @@ This playbook will:
 * Configure all Viptela elements
 * Create CSR, sign CSR, and install certificate
 * Add vbond and vsmart to vmanage
+
+## Complete
+
+You have completed lab exercise 5.0
+
+[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)

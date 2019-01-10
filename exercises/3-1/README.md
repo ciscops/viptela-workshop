@@ -220,9 +220,8 @@ GigabitEthernet4       10.0.255.5      YES TFTP   up                    up
 
 The output above shows that the Loopback 101 interface is no longer present, you have successfully backed up and restored configurations on your Cisco routers!
 
-# Complete
+## Complete
 
-You have completed lab exercise 2.2
+You have completed lab exercise 3.1
 
----
-[Click Here to return to the Ansible Linklight - Networking Workshop](../../README.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)

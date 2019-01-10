@@ -38,13 +38,6 @@ connect_timeout = 60
 command_timeout = 60
 ```
 
-Note the following parameters within the `ansible.cfg` file:
-
- - `inventory`: shows the location of the ansible inventory being used
- - `private_key_file`: this shows the location of the private key used to login to devices
-
-
-
 ## Step 3
 
 The scope of a `play` within a `playbook` is limited to the groups of hosts declared within an Ansible **inventory**. Ansible supports multiple [inventory](http://docs.ansible.com/ansible/latest/intro_inventory.html) types. An inventory could be a simple flat file with a collection of hosts defined within it or it could be a dynamic script (potentially querying a CMDB backend) that generates a list of devices to run the playbook against.
@@ -213,9 +206,8 @@ all:
 
 Finally, this information is augmented with host and group specific information from `group_vars` and `host_vars`:
 
-# Complete
+## Complete
 
 You have completed lab exercise 1.1
 
----
-[Click Here to return to the Viptela Networking Automation Workshop](README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)

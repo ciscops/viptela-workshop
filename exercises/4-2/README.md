@@ -84,9 +84,8 @@ internet                   : ok=1    changed=0    unreachable=0    failed=0
 sp1                        : ok=1    changed=0    unreachable=0    failed=0
 ```
 
-# Complete
+## Complete
 
-You have completed lab exercise 4.0
+You have completed lab exercise 4.2
 
----
-[Click Here to return to the Ansible Linklight - Networking Workshop](../../README.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)

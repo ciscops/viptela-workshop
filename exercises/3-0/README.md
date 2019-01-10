@@ -279,9 +279,8 @@ service password-encryption
 
 > Note: The **head** unix command will display the first N lines specified as an argument.
 
-# Complete
+## Complete
 
-You have completed lab exercise 2.1
+You have completed lab exercise 3.0
 
----
-[Click Here to return to the Ansible Linklight - Networking Workshop](../../README.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
