@@ -18,7 +18,7 @@ Want the Presentation Deck?  Its right here:
 
 ### Section 03 - Using Ansible to backup, and restore
 - [Exercise 3.0 - Backing up the router configuration](./exercises/3-0)
-- [Exercise 3.1 - Using Ansible to restore the backed up configuration](./exercises/3-1)
+- [Exercise 3.1 - Restoring the backed up configuration](./exercises/3-1)
 
 ### Section 04 - Using Ansible to configure via CLI and NETCONF
 - [Exercise 4.0 - Configure the router configurations using CLI](./exercises/4-0)
@@ -29,9 +29,8 @@ Want the Presentation Deck?  Its right here:
 - [Exercise 5.0 - Bring up the Viptela Control Plane](./exercises/5-0)
 - [Exercise 5.1 - Bring up the Viptela Edge](./exercises/5-1)
 
-
-### Poop
-- [Exercise 4.2 - Building dynamic documentation using the command parser](./exercises/3-1)
+### Section 06 - Clean up the workshop topoloigy
+- [Exercise 6.0 - Clean up the workshop topoloigy](./exercises/6-0)
 
 ## Network Diagram
 ![Red Hat Ansible Automation](../../images/network_diagram.png)
