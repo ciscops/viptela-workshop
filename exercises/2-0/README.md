@@ -188,4 +188,4 @@ core                       : ok=3    changed=0    unreachable=0    failed=0
 
 You have completed lab exercise 2.0
 
-[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

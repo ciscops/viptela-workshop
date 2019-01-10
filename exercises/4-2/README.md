@@ -66,7 +66,7 @@ Now create a new playbook called `netconf-template.yml` and add the following pl
 
 Now run the playbook:
 
-```bash
+```shell
 $ ansible-playbook netconf-tempate.yml
 
 PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
@@ -88,4 +88,4 @@ sp1                        : ok=1    changed=0    unreachable=0    failed=0
 
 You have completed lab exercise 4.2
 
-[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

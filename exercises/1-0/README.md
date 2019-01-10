@@ -54,4 +54,4 @@ ansible-playbook build.yml -e topo_file=other_topology.virl
 
 You have completed lab exercise 1.0
 
-[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

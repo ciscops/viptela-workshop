@@ -70,4 +70,4 @@ there is no checking beforehand.  The **netconf_config** module _is_ idenmpotent
 
 You have completed lab exercise 4.1
 
-[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

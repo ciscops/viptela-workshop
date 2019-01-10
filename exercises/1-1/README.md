@@ -210,4 +210,4 @@ Finally, this information is augmented with host and group specific information 
 
 You have completed lab exercise 1.1
 
-[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

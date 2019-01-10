@@ -224,4 +224,4 @@ The output above shows that the Loopback 101 interface is no longer present, you
 
 You have completed lab exercise 3.1
 
-[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

@@ -3,7 +3,7 @@
 
 The playbook can be run with tags to only perform certain stages.  For example:
 
-```
+```shell
 ansible-playbook configure.yml --tags=vedge
 ```
 will only configure the vEdges.  The `check_connectivty` will only check the connectivity of the overlay.
@@ -18,4 +18,4 @@ This playbook will:
 
 You have completed lab exercise 5.1
 
-[Click Here to return to the Viptela Networking Automation Workshop](../README_AUTOMATION.md)
+[Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)
