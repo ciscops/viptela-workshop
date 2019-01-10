@@ -5,7 +5,7 @@
 Run the `ansible` command with the `--version` command to look at what is configured:
 
 
-```
+``` shell
 $ ansible --version
 ansible 2.7.4
   config file = /Users/stevenca/Workspaces/viptela-workshop/ansible.cfg
@@ -24,7 +24,7 @@ This command gives you information about the version of Ansible, location of the
 
 Use the `cat` command to view the contents of the `ansible.cfg` file.
 
-```
+``` shell
 $ cat ~/ansible.cfg
 [defaults]
 roles_path = ${PWD}/roles
@@ -51,7 +51,7 @@ The scope of a `play` within a `playbook` is limited to the groups of hosts decl
 
 This viptela workshop uses a combination of file based inventory written in the **yaml** format and dynamic inventory:
  
-```
+``` shell
 inventory
 ├── group_vars
 │   └── all
@@ -88,7 +88,7 @@ The IP addresses of the hosts in the VIRL environment are retrieved using the dy
 script makes an API call to the VIRL server, then formats the information to feed into the Ansible inventory system.  The output
 can be seen by simply running the dynamic inventory script:
 
-```
+``` shell
 $ inventory/virl.py
 {
     "all": {
@@ -170,7 +170,7 @@ $ inventory/virl.py
 The inventory file `inventory/viptela.yml` is used in conjunction with the dynamically retrieved information to classify
 the devices into groups (e.g. viptela_control).  Use the `cat` command to view the contents of the file-based inventory:
 
-```
+``` shell
 $ cat inventory/viptela.yml
 all:
   vars:
@@ -213,32 +213,9 @@ all:
 
 Finally, this information is augmented with host and group specific information from `group_vars` and `host_vars`:
 
-## Step 4
-
-In the above output every `[ ]` defines a group. For example `[dc1]` is a group that contains the hosts `rtr1` and `rtr2`. Groups can also be _nested_. The group `[routers]` is a parent group to the group `[cisco]`
-
-> Parent groups are declared using the `children` directive. Having nested groups allows the flexibility of assigining more specific values to variables.
-
-
-> Note: A group called **all** always exists and contains all groups and hosts defined within an inventroy.
-
-
-We can associate variables to groups and hosts. Host variables are declared/defined on the same line as the host themselves. For example for the host `rtr1`:
-
-```
-rtr1 ansible_host=52.90.196.252 ansible_ssh_user=ec2-user private_ip=172.16.165.205 ansible_network_os=ios
-
-```
-
- - `rtr1` - The name that Ansible will use.  This can but does not have to rely on DNS
- - `ansible_host` - The IP address that ansible will use, if not configured it will default to DNS
- - `ansible_ssh_user` - The user ansible will use to login to this host, if not configured it will default to the user the playbook is run from
- - `private_ip` - This value is not reserved by ansible so it will default to a [host variable](http://docs.ansible.com/ansible/latest/intro_inventory.html#host-variables).  This variable can be used by playbooks or ignored completely.
-- `ansible_network_os` - This variable is necessary while using the `network_cli` connection type within a play definition, as we will see shortly.
-
 # Complete
 
-You have completed lab exercise 1.0
+You have completed lab exercise 1.1
 
 ---
-[Click Here to return to the Ansible Linklight - Networking Workshop](../../README.md)
+[Click Here to return to the Viptela Networking Automation Workshop](README_AUTOMATION.md)

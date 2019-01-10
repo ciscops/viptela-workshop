@@ -29,13 +29,13 @@ Run the playbook:
 ``` shell
 $ ansible-playbook router_configs.yml
 
-PLAY [SNMP RO/RW STRING CONFIGURATION] *********************************************************************************************************
+PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
-TASK [ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT] ****************************************************************************************
-changed: [hq]
-changed: [internet]
-changed: [core]
+TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] *****************************************************************************************
 changed: [sp1]
+changed: [internet]
+changed: [hq]
+changed: [core]
 
 PLAY RECAP *************************************************************************************************************************************
 core                       : ok=1    changed=1    unreachable=0    failed=0
@@ -55,9 +55,9 @@ The `ios_config` module is idempotent. This means, a configuration change is pus
 ``` shell
 $ ansible-playbook router_configs.yml
 
-PLAY [SNMP RO/RW STRING CONFIGURATION] *********************************************************************************************************
+PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
-TASK [ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT] ****************************************************************************************
+TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] *****************************************************************************************
 ok: [core]
 ok: [internet]
 ok: [sp1]
@@ -75,7 +75,7 @@ sp1                        : ok=1    changed=0    unreachable=0    failed=0
 
 #### Step 3
 
-Now update the task to add one more SNMP RO community string:
+Now update the task to add one more NTP server:
 
 
 ``` yaml
@@ -102,17 +102,14 @@ This time however, instead of running the playbook to push the change to the dev
 ``` shell
 $ ansible-playbook router_configs.yml --check -v
 Using /Users/stevenca/Workspaces/viptela-workshop/ansible.cfg as config file
-/Users/stevenca/Workspaces/viptela-workshop/inventory/viptela.yml did not meet host_list requirements, check plugin documentation if this is unexpected
-/Users/stevenca/Workspaces/viptela-workshop/inventory/viptela.yml did not meet script requirements, check plugin documentation if this is unexpected
-/Users/stevenca/Workspaces/viptela-workshop/inventory/virl.py did not meet host_list requirements, check plugin documentation if this is unexpected
 
-PLAY [SNMP RO/RW STRING CONFIGURATION] *********************************************************************************************************
+PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
-TASK [ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT] ****************************************************************************************
-changed: [hq] => {"banners": {}, "changed": true, "commands": ["snmp-server community ansible-test RO"], "updates": ["snmp-server community ansible-test RO"]}
-changed: [internet] => {"banners": {}, "changed": true, "commands": ["snmp-server community ansible-test RO"], "updates": ["snmp-server community ansible-test RO"]}
-changed: [sp1] => {"banners": {}, "changed": true, "commands": ["snmp-server community ansible-test RO"], "updates": ["snmp-server community ansible-test RO"]}
-changed: [core] => {"banners": {}, "changed": true, "commands": ["snmp-server community ansible-test RO"], "updates": ["snmp-server community ansible-test RO"]}
+TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] *****************************************************************************************
+changed: [sp1] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
+changed: [internet] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
+changed: [core] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
+changed: [hq] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
 
 PLAY RECAP *************************************************************************************************************************************
 core                       : ok=1    changed=1    unreachable=0    failed=0
@@ -136,12 +133,12 @@ Finally re-run this playbook again without the `-v` or `--check` flag to push th
 ``` shell
 $ ansible-playbook router_configs.yml
 
-PLAY [SNMP RO/RW STRING CONFIGURATION] *********************************************************************************************************
+PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
-TASK [ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT] ****************************************************************************************
+TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] *****************************************************************************************
+changed: [sp1]
 changed: [core]
 changed: [hq]
-changed: [sp1]
 changed: [internet]
 
 PLAY RECAP *************************************************************************************************************************************
@@ -210,21 +207,21 @@ Go ahead and run the playbook:
 ``` shell
 $ ansible-playbook router_configs.yml
 
-PLAY [SNMP RO/RW STRING CONFIGURATION] *********************************************************************************************************
+PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
-TASK [ENSURE THAT THE DESIRED SNMP STRINGS ARE PRESENT] ****************************************************************************************
-ok: [sp1]
+TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] *****************************************************************************************
 ok: [hq]
 ok: [core]
 ok: [internet]
+ok: [sp1]
 
 PLAY [HARDEN IOS ROUTERS] **********************************************************************************************************************
 
 TASK [ENSURE THAT ROUTERS ARE SECURE] **********************************************************************************************************
-changed: [hq]
-changed: [internet]
-changed: [core]
 changed: [sp1]
+changed: [internet]
+changed: [hq]
+changed: [core]
 
 PLAY RECAP *************************************************************************************************************************************
 core                       : ok=2    changed=1    unreachable=0    failed=0
