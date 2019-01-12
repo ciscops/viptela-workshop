@@ -3,6 +3,10 @@
   hosts: routers
   gather_facts: no
   connection: network_cli
+  vars:
+    ntp_servers:
+        - 192.5.41.40
+        - 192.5.41.41
 
   tasks:
     - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT

@@ -10,7 +10,7 @@ to get the most from this workshop, we recommend these [pre-requisites](devnet_c
 - [Exercise 1.0 - Building the topology](./exercises/1-0)
 - [Exercise 1.1 - Exploring the workshop environment](./exercises/1-1)
 
-### Section 02 - Using Ansible to gather data from network devices
+### Section 02 - Using Ansible to gather facts from network devices
 - [Exercise 2.0 - Writing your first playbook](./exercises/2-0)
 - [Exercise 2.1 - Module documentation, Registering output & tags](./exercises/2-1)
 
@@ -27,8 +27,8 @@ to get the most from this workshop, we recommend these [pre-requisites](devnet_c
 - [Exercise 5.0 - An introduction to templating with Jinja2](./exercises/5-0)
 
 ### Section 06 - Advanced Concepts
-- [Exercise 6.0 - Parsing unstrcutured data with TextFSM](./exercises/6-0)
-- [Exercise 6.1 - Adding idempotency to REST](./exercises/6-1)
+- [Exercise 6.0 - Parsing unstructured data with TextFSM](./exercises/6-0)
+- [Exercise 6.1 - Adding idempotency to REST operations](./exercises/6-1)
 - [Exercise 6.2 - An introduction to Roles](./exercises/6-2)
 
 ### Section 07 - Bring up the Viptela Overlay Network
@@ -42,6 +42,5 @@ to get the most from this workshop, we recommend these [pre-requisites](devnet_c
  - [Network Automation with Ansible Homepage](https://www.ansible.com/network-automation)
  - [List of Networking Ansible Modules](http://docs.ansible.com/ansible/latest/list_of_network_modules.html)
  - [Module Maintenance & Support](http://docs.ansible.com/ansible/latest/modules_support.html)
- - [Network Automation GitHub Repo](https://github.com/network-automation)
 
 ---

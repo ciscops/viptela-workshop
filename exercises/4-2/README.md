@@ -9,8 +9,6 @@ Create a new file called `ntp-restconf.yml` with the following play and task to 
 > Note: For help on the **uri** module, use the **ansible-doc uri** command from the command line or check docs.ansible.com. This will list all possible options with usage examples.
 
 ```yaml
-
----
 - name: CONFIGURE ROUTERS
   hosts: routers
   connection: local
@@ -46,8 +44,6 @@ Now let's add another task using the `uri` module with the `GET` method to see w
 
 
 ```yaml
-
----
 - name: CONFIGURE ROUTERS
   hosts: routers
   connection: local
@@ -146,10 +142,101 @@ internet                   : ok=4    changed=0    unreachable=0    failed=0
 sp1                        : ok=4    changed=0    unreachable=0    failed=0
 ```
 
-Feel free to log in and check the configuration update.
+Now run with `-vvv` to see the original output from the REST call to see how we knew the formatting for the set call:
+
+```shell
+<TRUNCATED>
+TASK [GET THE NTP LIST SERVERS] ****************************************************************************************************************
+task path: /Users/stevenca/Workspaces/viptela-workshop/ntp-restconf.yml:50
+<192.133.178.89> ESTABLISH LOCAL CONNECTION FOR USER: stevenca
+<192.133.178.89> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /tmp/ansible/${USER}/ansible-tmp-1547302555.23-53872026427777 `" && echo ansible-tmp-1547302555.23-53872026427777="` echo /tmp/ansible/${USER}/ansible-tmp-1547302555.23-53872026427777 `" ) && sleep 0'
+Using module file /Users/stevenca/venv/netops/lib/python2.7/site-packages/ansible/modules/net_tools/basics/uri.py
+<192.133.178.89> PUT /tmp/ansible/stevenca/ansible-local-148625KfXGQ/tmpHeGX1V TO /tmp/ansible/stevenca/ansible-tmp-1547302555.23-53872026427777/AnsiballZ_uri.py
+<192.133.178.89> EXEC /bin/sh -c 'chmod u+x /tmp/ansible/stevenca/ansible-tmp-1547302555.23-53872026427777/ /tmp/ansible/stevenca/ansible-tmp-1547302555.23-53872026427777/AnsiballZ_uri.py && sleep 0'
+<192.133.178.89> EXEC /bin/sh -c '/usr/bin/python /tmp/ansible/stevenca/ansible-tmp-1547302555.23-53872026427777/AnsiballZ_uri.py && sleep 0'
+<192.133.178.89> EXEC /bin/sh -c 'rm -f -r /tmp/ansible/stevenca/ansible-tmp-1547302555.23-53872026427777/ > /dev/null 2>&1 && sleep 0'
+ok: [core] => {
+    "cache_control": "private, no-cache, must-revalidate, proxy-revalidate",
+    "changed": false,
+    "connection": "close",
+    "content": "{\n  \"Cisco-IOS-XE-ntp:server\": {\n    \"server-list\": [\n      {\n        \"ip-address\": \"192.5.41.40\"\n      },\n      {\n        \"ip-address\": \"192.5.41.41\"\n      }\n    ]\n  }\n}\n",
+    "content_type": "application/yang-data+json",
+    "cookies": {},
+    "cookies_string": "",
+    "date": "Sat, 12 Jan 2019 14:15:52 GMT",
+    "invocation": {
+        "module_args": {
+            "attributes": null,
+            "backup": null,
+            "body": null,
+            "body_format": "raw",
+            "client_cert": null,
+            "client_key": null,
+            "content": null,
+            "creates": null,
+            "delimiter": null,
+            "dest": null,
+            "directory_mode": null,
+            "follow": false,
+            "follow_redirects": "safe",
+            "force": false,
+            "force_basic_auth": false,
+            "group": null,
+            "headers": {
+                "Accept": "application/yang-data+json"
+            },
+            "http_agent": "ansible-httpget",
+            "method": "GET",
+            "mode": null,
+            "owner": null,
+            "password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "regexp": null,
+            "remote_src": null,
+            "removes": null,
+            "return_content": true,
+            "selevel": null,
+            "serole": null,
+            "setype": null,
+            "seuser": null,
+            "src": null,
+            "status_code": [
+                200
+            ],
+            "timeout": 30,
+            "unsafe_writes": null,
+            "url": "https://192.133.178.89:443/restconf/data/Cisco-IOS-XE-native:native/Cisco-IOS-XE-native:ntp/Cisco-IOS-XE-ntp:server",
+            "url_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "url_username": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "use_proxy": true,
+            "user": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "validate_certs": false
+        }
+    },
+    "json": {
+        "Cisco-IOS-XE-ntp:server": {
+            "server-list": [
+                {
+                    "ip-address": "192.5.41.40"
+                },
+                {
+                    "ip-address": "192.5.41.41"
+                }
+            ]
+        }
+    },
+    "msg": "OK (unknown bytes)",
+    "pragma": "no-cache",
+    "redirected": false,
+    "server": "nginx",
+    "status": 200,
+    "transfer_encoding": "chunked",
+    "url": "https://192.133.178.89:443/restconf/data/Cisco-IOS-XE-native:native/Cisco-IOS-XE-native:ntp/Cisco-IOS-XE-ntp:server"
+}
+<TRUNCATED>
+```
 
 >Note: The **uri** module simply sends the payload via REST for a particular operation.  There is no idempotency in the `uri`
-because there is no checking beforehand.  To make these calls idempotent, either the API has to be idempotent or the appriete
+because there is no checking beforehand.  To make these calls idempotent, either the API has to be idempotent or the appropriate
 checks must be done beforehand.
 
 >Note: We changed to `connection: local` meaning that all tasks in this play will run on the localhost instead of the target
