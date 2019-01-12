@@ -1,6 +1,0 @@
-- hosts: routers
-  connection: network_cli
-  gather_facts: no
-  tasks:
-    - cli_config:
-        config: "{{ lookup('template', 'ntp-cli.j2') }}"

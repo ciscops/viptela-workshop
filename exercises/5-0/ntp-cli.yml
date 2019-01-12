@@ -1,0 +1,10 @@
+---
+- name: CONFIGURE ROUTERS
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
+      cli_config:
+        config: "{{ lookup('template', 'ios-ntp-cli.j2') }}"

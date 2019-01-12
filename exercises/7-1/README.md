@@ -1,4 +1,4 @@
-# Exercise 5.1 - Configure the Viptela vEdges
+# Exercise 7.1 - Configure the Viptela vEdges
 
 
 The playbook can be run with tags to only perform certain stages.  For example:
@@ -16,6 +16,6 @@ This playbook will:
 
 ## Complete
 
-You have completed lab exercise 5.1
+You have completed lab exercise 7.1
 
 [Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

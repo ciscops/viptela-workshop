@@ -4,7 +4,7 @@ Using Ansible you can update the configuration of routers either by pushing a co
 
 #### Step 1
 
-Create a new file called `router_configs.yml` with the following play and task to ensure that the SNMP strings `ansible-public` and `ansible-private` are present on all the routers.  Use the `ios_config` module for this task
+Create a new file called `router_configs.yml` with the following play and task to ensure that the NTP servers are present on all the routers.  Use the `ios_config` module for this task
 
 > Note: For help on the **ios_config** module, use the **ansible-doc ios_config** command from the command line or check docs.ansible.com. This will list all possible options with usage examples.
 

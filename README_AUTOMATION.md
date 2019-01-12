@@ -21,14 +21,22 @@ to get the most from this workshop, we recommend these [pre-requisites](devnet_c
 ### Section 04 - Using Ansible to configure via CLI and NETCONF
 - [Exercise 4.0 - Configure the router configurations using CLI](./exercises/4-0)
 - [Exercise 4.1 - Configure the router configurations using NETCONF](./exercises/4-1)
-- [Exercise 4.2 - An introduction to templating with Jinja2](./exercises/4-2)
+- [Exercise 4.2 - Configure the router configurations using RESTCONF](./exercises/4-2)
 
-### Section 05 - Bring up the Viptela Overlay Network
-- [Exercise 5.0 - Bring up the Viptela Control Plane](./exercises/5-0)
-- [Exercise 5.1 - Bring up the Viptela Edge](./exercises/5-1)
+### Section 05 - An introduction to templating with Jinja2 
+- [Exercise 5.0 - An introduction to templating with Jinja2](./exercises/5-0)
 
-### Section 06 - Clean up the workshop topoloigy
-- [Exercise 6.0 - Clean up the workshop topoloigy](./exercises/6-0)
+### Section 06 - Advanced Concepts
+- [Exercise 6.0 - Parsing unstrcutured data with TextFSM](./exercises/6-0)
+- [Exercise 6.1 - Adding idempotency to REST](./exercises/6-1)
+- [Exercise 6.2 - An introduction to Roles](./exercises/6-2)
+
+### Section 07 - Bring up the Viptela Overlay Network
+- [Exercise 7.0 - Bring up the Viptela Control Plane](./exercises/7-0)
+- [Exercise 7.1 - Bring up the Viptela Edge](./exercises/7-1)
+
+### Section 08 - Clean up the workshop topoloigy
+- [Exercise 8.0 - Clean up the workshop topoloigy](./exercises/8-0)
 
 ## Additional information
  - [Network Automation with Ansible Homepage](https://www.ansible.com/network-automation)

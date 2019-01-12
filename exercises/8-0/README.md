@@ -1,4 +1,4 @@
-# Exercise 6.0 - Clean up the Topology
+# Exercise 8.0 - Clean up the Topology
 ```shell
 ansible-playbook clean.yml
 ```
@@ -10,6 +10,6 @@ This playbook will:
 
 ## Complete
 
-You have completed lab exercise 6.0
+You have completed lab exercise 8.0
 
 [Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)
