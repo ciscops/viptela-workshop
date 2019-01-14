@@ -1,0 +1,19 @@
+- name: GATHER INFORMATION FROM ROUTERS
+  hosts: routers
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - name: COLLECT OUTPUT OF SHOW COMMANDS
+      cli_command:
+        command: show ip interface brief
+      register: output
+
+    - set_fact:
+        interfaces: "{{ output.stdout | parse_cli_textfsm('templates/ios_show_interfaces.textfsm') }}"
+
+    - debug:
+        var: interfaces
+
+    - debug:
+        msg: "The name of the first interface is {{ interfaces[0].INTERFACE }} and its IP is {{ interfaces[0].IP }}"

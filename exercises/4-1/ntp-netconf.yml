@@ -1,0 +1,24 @@
+- hosts: routers
+  connection: netconf
+  gather_facts: no
+  tasks:
+    - netconf_rpc:
+        rpc: edit-config
+        content: |
+          <target>
+            <running/>
+          </target>
+          <config>
+            <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+              <ntp>
+                <server xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp" operation='replace'>
+                  <server-list>
+                    <ip-address>1.1.1.1</ip-address>
+                  </server-list>
+                  <server-list>
+                    <ip-address>3.3.3.3</ip-address>
+                  </server-list>
+                </server>
+              </ntp>
+            </native>
+          </config>

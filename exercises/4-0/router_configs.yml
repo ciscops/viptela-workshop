@@ -1,0 +1,25 @@
+---
+- name: CONFIGURE ROUTERS
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+
+    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
+      ios_config:
+        lines:
+          - ntp server 192.5.41.40
+          - ntp server 192.5.41.41
+
+
+- name: HARDEN IOS ROUTERS
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+
+    - name: ENSURE THAT ROUTERS ARE SECURE
+      ios_config:
+        src: secure_router.cfg

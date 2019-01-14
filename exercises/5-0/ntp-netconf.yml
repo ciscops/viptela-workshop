@@ -1,0 +1,15 @@
+---
+- name: CONFIGURE ROUTERS
+  hosts: routers
+  gather_facts: no
+  connection: netconf
+
+  tasks:
+    - name: ENABLE NETCONF/YANG ON THE ROUTER
+      cli_config:
+        config: netconf-yang
+
+    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
+      netconf_rpc:
+        rpc: edit-config
+        content: "{{ lookup('template', 'ios-ntp-netconf.j2') }}"
