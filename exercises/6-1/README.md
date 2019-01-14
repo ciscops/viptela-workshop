@@ -93,10 +93,12 @@ Now let's add a conditional the REST `PUT` operation using the Ansible `when` cl
 there is a difference.  We set another Ansible clause, `changed_when`, to `yes` so that it always show a change when that
 task is run.
 
-The uri task does a REST call to the device to set the values with the `PUT` method.  To get more information in the status of the REST call, we print out the result with the `debug` module.
+The uri task does a REST call to the device to set the values with the `PUT` method.  To get more information in the status
+of the REST call, we print out the result with the `debug` module.
 
 Now let's add another task using the `uri` module with the `GET` method to see what the result was of the previous `PUT`:
 
+>Note: Refer to the [Programmability Configuration Guide, Cisco IOS XE Everest 16.6.x](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/prog/configuration/166/b_166_programmability_cg/restconf_prog_int.html) for more information
 
 ```yaml
 - name: CONFIGURE ROUTERS
@@ -248,8 +250,11 @@ internet                   : ok=4    changed=1    unreachable=0    failed=0
 sp1                        : ok=4    changed=1    unreachable=0    failed=0
 ```
 
+As you can see, it executed the `PUT` task to make the changes and returned a status of `changed`.  If this playbook
+were run again with no changes in the `ntp_server_list`, it would skip the `PUT` task and return a status of `ok`.
+
 ## Complete
 
-You have completed lab exercise 4.2
+You have completed lab exercise 6.1
 
 [Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)

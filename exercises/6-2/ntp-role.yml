@@ -1,0 +1,11 @@
+- name: CONFIGURE ROUTERS
+  hosts: routers
+  connection: local
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: ios-ntp
+      vars:
+        ntp_server_list:
+          - { ip-address: 192.5.41.40 }
+          - { ip-address: 192.5.41.43 }

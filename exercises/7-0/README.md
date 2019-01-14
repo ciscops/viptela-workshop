@@ -13,7 +13,7 @@ ansible-playbook configure.yml -e 'organization_name="<your org name>"'
 
 The second way is to modify `organization_name` in `inventory/group_vars/all/viptela.yml`.
 
-shell
+```shell
 organization_name: ""
 ```
 
