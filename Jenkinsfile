@@ -22,6 +22,7 @@ pipeline {
             triggerPhrase('.*(re)?run tests.*')
             onlyTriggerPhrase()
             useGitHubHooks()
+        }
     }
     options {
       disableConcurrentBuilds()
