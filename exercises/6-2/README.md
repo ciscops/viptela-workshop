@@ -97,8 +97,8 @@ Now edit `roles/ios-ntp/tasks/main.yml` to remove the play definition and reduce
 
 ### Step 3:
 
-We are going to put the default variables into `roles/ios-ntp/defaults/main.yml` to they can be overridden by either passing
-in vars with the role or with host_var/group_vars:
+We are going to put the default variables into `roles/ios-ntp/defaults/main.yml` so they can be overridden by either passing
+in vars with the role or with host_vars/group_vars:
 
 ```yml
 # defaults file for ios-ntp
