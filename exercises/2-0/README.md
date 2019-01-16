@@ -12,11 +12,9 @@ Now that you have a fundamental grasp of the inventory file and the group/host v
 Create a new file called `gather_ios_data.yml` the following play definition and a task will use the `ios_facts` module to gather facts about each device in the group `routers`:
 
 
-``` yaml
-
----
+```yaml
 - name: GATHER INFORMATION FROM ROUTERS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
@@ -89,10 +87,8 @@ Running a playbook in verbose mode is a good option to validate the output from 
 Write 2 tasks that display the routers' OS version and serial number.
 
 ``` yaml
-
----
 - name: GATHER INFORMATION FROM ROUTERS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
@@ -159,7 +155,7 @@ sp1                        : ok=3    changed=0    unreachable=0    failed=0
 
 #### Step 4
 
-Ansible allows you to limit the playbook execution to a subset of the devices declared in the group, against which the play is running against. This can be done using the `--limit` flag. Rerun the above task, limiting it first to `rtr1` and then to both `rtr1` and `rtr3`
+Ansible allows you to limit the playbook execution to a subset of the devices declared in the group, against which the play is running against. This can be done using the `--limit` flag. Rerun the above task, limiting it to the router `core`.
 
 
 ```
