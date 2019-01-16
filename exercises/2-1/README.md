@@ -132,7 +132,7 @@ With the `ios_facts` module, the output was automatically assigned to the `ansib
 
 ---
 - name: GATHER INFORMATION FROM ROUTERS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
@@ -164,7 +164,7 @@ Then add a task to use the `debug` module to display the content's of the `show_
 
 ---
 - name: GATHER INFORMATION FROM ROUTERS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
@@ -323,7 +323,7 @@ Write a new task to display only the hostname using a debug command:
 
 ---
 - name: GATHER INFORMATION FROM ROUTERS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 

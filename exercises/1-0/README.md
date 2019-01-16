@@ -36,18 +36,15 @@ VIRL_HOST=your.virl.server
 
 >Note: your values will be different.
 
-Run the `build` playbook to the build the topology:
+Run the `build` playbook to the build the topology in `viptela1_csr.virl`:
 ``` shell
-ansible-playbook build.yml
+ansible-playbook build.yml -e topo_file=viptela1_csr.virl
 ```
 
 This playbook will:
 * Launch the topology file
 * Wait until they show as reachable in VIRL
 
->Note: Other topologies can be built using the `topo_file` extra var:
-``` shell
-ansible-playbook build.yml -e topo_file=other_topology.virl
 ```
 
 ## Complete

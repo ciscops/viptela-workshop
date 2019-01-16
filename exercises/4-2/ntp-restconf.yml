@@ -1,0 +1,42 @@
+- name: CONFIGURE ROUTERS
+  hosts: routers
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: SET THE NTP SERVERS
+      uri:
+        url: "https://{{ hostvars[inventory_hostname].ansible_host }}:443/restconf/data/Cisco-IOS-XE-native:native/Cisco-IOS-XE-native:ntp/Cisco-IOS-XE-ntp:server"
+        user: admin
+        password: admin
+        method: PUT
+        return_content: yes
+        headers:
+          Content-Type: 'application/yang-data+json'
+          Accept: 'application/yang-data+json, application/yang-data.errors+json'
+        body_format: json
+        body:
+          server:
+            server-list:
+              - { ip-address: 192.5.41.40 }
+              - { ip-address: 192.5.41.41 }
+        validate_certs: no
+        status_code: [200, 204]
+      register: results
+
+    - debug:
+        msg: "Status: {{ results.status }}"
+
+    - name: GET THE NTP LIST SERVERS
+      uri:
+        url: "https://{{ hostvars[inventory_hostname].ansible_host }}:443/restconf/data/Cisco-IOS-XE-native:native/Cisco-IOS-XE-native:ntp/Cisco-IOS-XE-ntp:server"
+        user: admin
+        password: admin
+        method: GET
+        return_content: yes
+        headers:
+          Accept: 'application/yang-data+json'
+        validate_certs: no
+      register: results
+
+    - debug:
+        msg: "NTP Servers: {{ results.json['Cisco-IOS-XE-ntp:server']['server-list'] | map(attribute='ip-address') | join(',') }}"

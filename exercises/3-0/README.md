@@ -80,7 +80,7 @@ In **Step 1** you captured the output of the task into a variable called `config
 
 ---
 - name: BACKUP ROUTER CONFIGURATIONS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
@@ -161,7 +161,7 @@ Write a new task using Ansible's `lineinfile` module to remove the first line.
 
 ---
 - name: BACKUP ROUTER CONFIGURATIONS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
@@ -194,7 +194,7 @@ Before we run the playbook, we need to add one more task to remove the second li
 
 ---
 - name: BACKUP ROUTER CONFIGURATIONS
-  hosts: cisco
+  hosts: routers
   connection: network_cli
   gather_facts: no
 
