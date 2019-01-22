@@ -81,7 +81,7 @@ Now update the task to add one more NTP server:
 ``` yaml
 
 ---
-- name:CONFIGURE ROUTERS
+- name: CONFIGURE ROUTERS
   hosts: routers
   gather_facts: no
   connection: network_cli

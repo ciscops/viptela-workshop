@@ -9,7 +9,10 @@
       cli_config:
         config: netconf-yang
 
+    - set_facts:
+        template_file: "{{ ansible_network_os }}-ntp-netconf.j2"
+
     - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       netconf_rpc:
         rpc: edit-config
-        content: "{{ lookup('template', 'ios-ntp-netconf.j2') }}"
+        content: "{{ lookup('template', temaplate_file) }}"

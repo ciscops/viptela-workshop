@@ -1,11 +1,5 @@
 # Exercise 1.0 -  Using Ansible with Viptela SDx Workshop
 
-## Requirements
-
-* pip: `pip install -r requirements.txt`
-* sshpass
-
-
 ## Step1
 
 Cloning the workshop repo repo:
@@ -22,6 +16,16 @@ $ cd viptela-workshop/
 ```
 
 >Note: All subsequent exercises will be in this directory unless otherwise noted.
+
+## Step 3
+
+Install requirements with pip:
+
+```
+pip install -r requirements.txt
+```
+
+Install sshpass
 
 ## Step 3
 
