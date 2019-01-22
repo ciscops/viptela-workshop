@@ -3,6 +3,12 @@
   connection: local
   gather_facts: no
   tasks:
+    - name: ENABLE NETCONF/YANG
+      ios_config:
+        lines:
+          - restconf
+      connection: network_cli
+
     - name: SET THE NTP SERVERS
       uri:
         url: "https://{{ hostvars[inventory_hostname].ansible_host }}:443/restconf/data/Cisco-IOS-XE-native:native/Cisco-IOS-XE-native:ntp/Cisco-IOS-XE-ntp:server"

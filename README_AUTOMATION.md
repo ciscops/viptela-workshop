@@ -2,7 +2,7 @@
 
 This is the network automation version of the [Viptela SDX Workshop](README.md).  It is not meant to be an exhaustive treatment
 of any of the technologies presented, but an application of those technologies to a real-world use case for automation.  In order
-to get the most from this workshop, we recommend these [pre-requisites](devnet_courses.md) from [Cisco DevNet](https://developer.cisco.com/).
+to get the most from this workshop, we recommend these [pre-requisites](pre-requisites.md) from [Cisco DevNet](https://developer.cisco.com/).
 
 ## Network Automation Exercises
 

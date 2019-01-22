@@ -11,13 +11,17 @@ Create a new file called `ntp-netconf.yml` with the following play and task to e
 ```
 
 ---
-- name: CONFIGURE ROUTERS
-  hosts: routers
+- hosts: routers
   connection: netconf
   gather_facts: no
   tasks:
-    - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
-      netconf_rpc:
+    - name: ENABLE NETCONF/YANG
+      ios_config:
+        commands:
+          - netconf-yang
+      connection: network_cli
+
+    - netconf_rpc:
         rpc: edit-config
         content: |
           <target>
@@ -28,10 +32,10 @@ Create a new file called `ntp-netconf.yml` with the following play and task to e
               <ntp>
                 <server xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp" operation='replace'>
                   <server-list>
-                    <ip-address>192.5.41.40</ip-address>
+                    <ip-address>1.1.1.1</ip-address>
                   </server-list>
                   <server-list>
-                    <ip-address>192.5.41.41</ip-address>
+                    <ip-address>3.3.3.3</ip-address>
                   </server-list>
                 </server>
               </ntp>
@@ -44,19 +48,25 @@ Run the playbook:
 ``` shell
 $ ansible-playbook ntp-netconf.yml
 
-PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
+PLAY [CONFIGURE ROUTERS] *****************************************************************************************************
 
-TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] *****************************************************************************************
-ok: [hq]
+TASK [ENABLE NETCONF/YANG] ***************************************************************************************************
+ok: [sp1]
 ok: [core]
+ok: [hq]
+ok: [internet]
+
+TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] ***********************************************************************
+ok: [core]
+ok: [hq]
 ok: [internet]
 ok: [sp1]
 
-PLAY RECAP *************************************************************************************************************************************
-core                       : ok=1    changed=0    unreachable=0    failed=0
-hq                         : ok=1    changed=0    unreachable=0    failed=0
-internet                   : ok=1    changed=0    unreachable=0    failed=0
-sp1                        : ok=1    changed=0    unreachable=0    failed=0
+PLAY RECAP *******************************************************************************************************************
+core                       : ok=2    changed=0    unreachable=0    failed=0
+hq                         : ok=2    changed=0    unreachable=0    failed=0
+internet                   : ok=2    changed=0    unreachable=0    failed=0
+sp1                        : ok=2    changed=0    unreachable=0    failed=0                       : ok=1    changed=0    unreachable=0    failed=0
 ```
 
 Feel free to log in and check the configuration update.

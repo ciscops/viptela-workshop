@@ -3,12 +3,14 @@
 
 In a exercise, we ran the command `show ip interface brief` and just printed out the raw output.  Unfortunately, this
 unstructured data is difficult to work with in Ansible, so we'll look at how to turn it into structured data using the
-capabilities profided by [TextFSM](https://github.com/google/textfsm) in the `parse_cli_textfsm` module.
+capabilities provided by [TextFSM](https://github.com/google/textfsm) in the `parse_cli_textfsm` module.
 
 
 #### Step 1
 
 The `ios_command` module allows you to do that. Go ahead and add another task to the playbook to collect the output of 2 _show_ commands to collect the **hostname** and the output of the `show ip interface brief` commands:
+
+Create a file named `textfsm.yml` with the following contents:
 
 ```yaml
 - name: GATHER INFORMATION FROM ROUTERS

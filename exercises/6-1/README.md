@@ -37,7 +37,7 @@ Create a new file called `ntp-restconf2.yml` that perfoms a REST `GET` operation
         desired_ntp_servers: "{{ ntp_server_list | map(attribute='ip-address') | list }}"
 
     - debug:
-        msg: "{{ existing_ntp_servers | difference(ntp_servers) }}"
+        msg: "{{ actual_ntp_servers | difference(desired_ntp_servers) }}"
 ```
 
 >Note: We've changed the list of NTP servers to a var at the top of the play since we'll be using it in several places.
@@ -49,7 +49,7 @@ use the Jinja2 [map](http://jinja.pocoo.org/docs/dev/templates/#map) filter that
 
 Run the playbook:
 ```shell
-$ ansible-playbook ntp-restconf.yml
+$ ansible-playbook ntp-restconf2.yml
 
 PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
@@ -108,7 +108,7 @@ Now let's add another task using the `uri` module with the `GET` method to see w
   vars:
     ntp_server_list:
       - { ip-address: 192.5.41.40 }
-      - { ip-address: 192.5.41.42 }
+      - { ip-address: 192.5.41.41 }
   tasks:
     - name: GET THE NTP LIST SERVERS
       uri:

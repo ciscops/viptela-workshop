@@ -4,3 +4,4 @@ pyOpenSSL>=18.0.0
 virlutils>=0.8.4
 netaddr>=0.7.19
 textfsm>=0.4.1
+scp>=0.13.0
