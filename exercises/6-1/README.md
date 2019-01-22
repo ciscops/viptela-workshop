@@ -49,7 +49,7 @@ use the Jinja2 [map](http://jinja.pocoo.org/docs/dev/templates/#map) filter that
 
 Run the playbook:
 ```shell
-$ ansible-playbook ntp-restconf.yml
+$ ansible-playbook ntp-restconf2.yml
 
 PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
