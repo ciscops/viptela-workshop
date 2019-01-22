@@ -45,7 +45,7 @@ that we've set in the inventory to determine how to talk to the target device.
 Finaly, run the playbook:
 
 ```bash
-$ ansible-playbook cli-tempate.yml
+$ ansible-playbook cli-template.yml
 
 PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 

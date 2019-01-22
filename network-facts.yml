@@ -3,4 +3,10 @@
   connection: network_cli
   tasks:
     - ios_facts:
-    - debug: var=hostvars[inventory_hostname]
+      register: facts
+
+    - debug:
+        msg: "My serial number: {{ ansible_net_serialnum }}"
+
+    - debug:
+        msg: "Internet's serial number: {{ hostvars['internet'].ansible_net_serialnum }}"

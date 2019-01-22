@@ -2,6 +2,12 @@
   connection: netconf
   gather_facts: no
   tasks:
+    - name: ENABLE NETCONF/YANG
+      ios_config:
+        commands:
+          - netconf-yang
+      connection: network_cli
+
     - netconf_rpc:
         rpc: edit-config
         content: |
