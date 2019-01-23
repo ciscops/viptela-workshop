@@ -1,4 +1,9 @@
 # Exercise 8.0 - Clean up the Topology
+
+#### Step 1
+
+Now that we are done with the workshop, let's clean up the environment:
+
 ```shell
 ansible-playbook clean.yml
 ```

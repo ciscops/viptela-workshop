@@ -1,6 +1,6 @@
 # Exercise 5.1 - Exercising the vManage REST API
 
-Using the Ansible [uri](https://docs.ansible.com/ansible/latest/modules/get_url_module.html) module, you can make REST API
+Using the Ansible [uri](https://docs.ansible.com/ansible/latest/modules/uri_module.html) module, you can make REST API
 calls to vManage to get and set information.  
 
 #### Step 1
@@ -81,6 +81,33 @@ localhost                  : ok=4    changed=0    unreachable=0    failed=0
 >Note: You might need to run the playbook multiple times as the control plane comes up for all devices to have a state
 of `normal`
 
+#### Step 2
+
+Let's apply our knowlege.  Use the `-vvv` option to set the JSON reply from the REST API call, then modify the playbook
+to just print out the names of all vbonds.  The output should look similar to this:
+
+```bash
+$ ansible-playbook viptela-devices.yml
+
+PLAY [localhost] *******************************************************************************************************************************
+
+TASK [Get Cookie] ******************************************************************************************************************************
+ok: [localhost]
+
+TASK [Get a list of fabric devices] ************************************************************************************************************
+ok: [localhost]
+
+TASK [set_fact] ********************************************************************************************************************************
+ok: [localhost]
+
+TASK [debug] ***********************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "These vbonds are part of the fabric: vbond1"
+}
+
+PLAY RECAP *************************************************************************************************************************************
+localhost                  : ok=4    changed=0    unreachable=0    failed=0
+```
 
 ## Complete
 
