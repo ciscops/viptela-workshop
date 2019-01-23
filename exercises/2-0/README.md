@@ -45,7 +45,7 @@ hq                         : ok=1    changed=0    unreachable=0    failed=0
 internet                   : ok=1    changed=0    unreachable=0    failed=0
 sp1                        : ok=1    changed=0    unreachable=0    failed=0
 ```
->NOTE: `-i inventory` would normally be required it inventory was not specified in ansible.cfg
+>NOTE: `-i inventory` would normally be required if the inventory location was not specified in ansible.cfg
 
 
 #### Step 2
@@ -84,7 +84,7 @@ sp1                        : ok=1    changed=0    unreachable=0    failed=0.
 
 Running a playbook in verbose mode is a good option to validate the output from a task. To work with the variables within a playbook you can use the `debug` module.
 
-Write 2 tasks that display the routers' OS version and serial number.
+Write 2 tasks that display the routers' OS version.
 
 ``` yaml
 - name: GATHER INFORMATION FROM ROUTERS
@@ -99,10 +99,6 @@ Write 2 tasks that display the routers' OS version and serial number.
     - name: DISPLAY VERSION
       debug:
         msg: "The IOS version is: {{ ansible_net_version }}"
-
-    - name: DISPLAY SERIAL NUMBER
-      debug:
-        msg: "The serial number is:{{ ansible_net_serialnum }}"  
 ```
 
 Now re-run the playbook but this time do not use the `verbose` flag and run it against all hosts.
@@ -132,20 +128,6 @@ ok: [internet] => {
     "msg": "The IOS version is: 16.06.01"
 }
 
-TASK [DISPLAY SERIAL NUMBER] *******************************************************************************************************************
-ok: [core] => {
-    "msg": "The serial number is:9G2BRFW90PE"
-}
-ok: [sp1] => {
-    "msg": "The serial number is:9IE01XYI86C"
-}
-ok: [hq] => {
-    "msg": "The serial number is:9R9GMBNZ5KH"
-}
-ok: [internet] => {
-    "msg": "The serial number is:9NSC4T87AF2"
-}
-
 PLAY RECAP *************************************************************************************************************************************
 core                       : ok=3    changed=0    unreachable=0    failed=0
 hq                         : ok=3    changed=0    unreachable=0    failed=0
@@ -171,9 +153,32 @@ ok: [core] => {
     "msg": "The IOS version is: 16.06.01"
 }
 
+PLAY RECAP *************************************************************************************************************************************
+core                       : ok=3    changed=0    unreachable=0    failed=0
+```
+
+#### Step 5
+
+To apply what you've learned in this exercise, use the verbose output and the debug module to print out the serial number as well.
+
+The output should look similar to the following:
+
+```
+$ ansible-playbook gather_ios_data.yml --limit core
+
+PLAY [GATHER INFORMATION FROM ROUTERS] *********************************************************************************************************
+
+TASK [GATHER ROUTER FACTS] *********************************************************************************************************************
+ok: [core]
+
+TASK [DISPLAY VERSION] *************************************************************************************************************************
+ok: [core] => {
+    "msg": "The IOS version is: 16.06.01"
+}
+
 TASK [DISPLAY SERIAL NUMBER] *******************************************************************************************************************
 ok: [core] => {
-    "msg": "The serial number is:9G2BRFW90PE"
+    "msg": "The serial number is: 9G2BRFW90PE"
 }
 
 PLAY RECAP *************************************************************************************************************************************
