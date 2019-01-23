@@ -1,151 +1,82 @@
-# Exercise 6.0 - Parsing unstructured data with TextFSM
+# Exercise 6.0 - Updating the router configuration with NETCONF
 
-
-In a exercise, we ran the command `show ip interface brief` and just printed out the raw output.  Unfortunately, this
-unstructured data is difficult to work with in Ansible, so we'll look at how to turn it into structured data using the
-capabilities provided by [TextFSM](https://github.com/google/textfsm) in the `parse_cli_textfsm` module.
-
+Using Ansible you can update the configuration of routers either by pushing a configuration file to the device or you can push configuration lines directly to the device.
 
 #### Step 1
 
-The `ios_command` module allows you to do that. Go ahead and add another task to the playbook to collect the output of 2 _show_ commands to collect the **hostname** and the output of the `show ip interface brief` commands:
+Create a new file called `ntp-netconf.yml` with the following play and task to ensure that the NTP servers are present on all the routers.  Use the `netconf_rpc` module for this task
 
-Create a file named `textfsm.yml` with the following contents:
+> Note: For help on the **netconf_rpc** module, use the **ansible-doc netconf_rpc** command from the command line or check docs.ansible.com. This will list all possible options with usage examples.
 
-```yaml
-- name: GATHER INFORMATION FROM ROUTERS
-  hosts: routers
-  connection: network_cli
-  gather_facts: no
-
-  tasks:
-    - name: COLLECT OUTPUT OF SHOW COMMANDS
-      cli_command:
-        command: show ip interface brief
-      register: output
-      
-    - debug:
-        var: output
 ```
 
-Run the playbook. For brevity, we are going to limit the number of devices with the `--limit` option:
-
-```shell
-$ ansible-playbook textfsm.yml --limit=core
-
-PLAY [GATHER INFORMATION FROM ROUTERS] *********************************************************************************************************
-
-TASK [COLLECT OUTPUT OF SHOW COMMANDS] *********************************************************************************************************
-ok: [core]
-
-TASK [debug] ***********************************************************************************************************************************
-ok: [core] => {
-    "output": {
-        "changed": false,
-        "failed": false,
-        "stdout": "Interface              IP-Address      OK? Method Status                Protocol\nGigabitEthernet1       192.133.178.89  YES DHCP   up                    up      \nGigabitEthernet2       10.0.255.2      YES TFTP   up                    up      \nGigabitEthernet3       10.0.1.1        YES TFTP   up                    up      \nGigabitEthernet4       10.0.255.5      YES TFTP   up                    up",
-        "stdout_lines": [
-            "Interface              IP-Address      OK? Method Status                Protocol",
-            "GigabitEthernet1       192.133.178.89  YES DHCP   up                    up      ",
-            "GigabitEthernet2       10.0.255.2      YES TFTP   up                    up      ",
-            "GigabitEthernet3       10.0.1.1        YES TFTP   up                    up      ",
-            "GigabitEthernet4       10.0.255.5      YES TFTP   up                    up"
-        ]
-    }
-}
-
-PLAY RECAP *************************************************************************************************************************************
-core                       : ok=2    changed=0    unreachable=0    failed=0
-```
-
-### Step 2
-
-Now, instead of just printing out the output, we pass it through the `parse_cli_textfsm` module and print out the variable
-to which we assigned the results:
-
-```yaml
-- name: GATHER INFORMATION FROM ROUTERS
-  hosts: routers
-  connection: network_cli
+---
+- hosts: routers
+  connection: netconf
   gather_facts: no
-
   tasks:
-    - name: COLLECT OUTPUT OF SHOW COMMANDS
-      cli_command:
-        command: show ip interface brief
-      register: output
+    - name: ENABLE NETCONF/YANG
+      ios_config:
+        commands:
+          - netconf-yang
+      connection: network_cli
 
-    - set_fact:
-        interfaces: "{{ output.stdout | parse_cli_textfsm('templates/ios_show_interfaces.textfsm') }}"
-
-    - debug:
-        var: interfaces
-
-    - debug:
-        msg: "The name of the first interface is {{ interfaces[0].INTERFACE }} and its IP is {{ interfaces[0].IP }}"
+    - netconf_rpc:
+        rpc: edit-config
+        content: |
+          <target>
+            <running/>
+          </target>
+          <config>
+            <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+              <ntp>
+                <server xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ntp" operation='replace'>
+                  <server-list>
+                    <ip-address>1.1.1.1</ip-address>
+                  </server-list>
+                  <server-list>
+                    <ip-address>3.3.3.3</ip-address>
+                  </server-list>
+                </server>
+              </ntp>
+            </native>
+          </config>
 ```
 
 Run the playbook:
 
-```shell
-$ ansible-playbook textfsm.yml --limit=core
+``` shell
+$ ansible-playbook ntp-netconf.yml
 
-PLAY [GATHER INFORMATION FROM ROUTERS] *********************************************************************************************************
+PLAY [CONFIGURE ROUTERS] *****************************************************************************************************
 
-TASK [COLLECT OUTPUT OF SHOW COMMANDS] *********************************************************************************************************
+TASK [ENABLE NETCONF/YANG] ***************************************************************************************************
+ok: [sp1]
 ok: [core]
+ok: [hq]
+ok: [internet]
 
-TASK [set_fact] ********************************************************************************************************************************
+TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] ***********************************************************************
 ok: [core]
+ok: [hq]
+ok: [internet]
+ok: [sp1]
 
-TASK [debug] ***********************************************************************************************************************************
-ok: [core] => {
-    "interfaces": [
-        {
-            "INTERFACE": "GigabitEthernet1",
-            "IP": "192.133.178.89",
-            "METHOD": "DHCP",
-            "OK": "YES",
-            "PROTOCOL": "up",
-            "STATUS": "up"
-        },
-        {
-            "INTERFACE": "GigabitEthernet2",
-            "IP": "10.0.255.2",
-            "METHOD": "TFTP",
-            "OK": "YES",
-            "PROTOCOL": "up",
-            "STATUS": "up"
-        },
-        {
-            "INTERFACE": "GigabitEthernet3",
-            "IP": "10.0.1.1",
-            "METHOD": "TFTP",
-            "OK": "YES",
-            "PROTOCOL": "up",
-            "STATUS": "up"
-        },
-        {
-            "INTERFACE": "GigabitEthernet4",
-            "IP": "10.0.255.5",
-            "METHOD": "TFTP",
-            "OK": "YES",
-            "PROTOCOL": "up",
-            "STATUS": "up"
-        }
-    ]
-}
-
-TASK [debug] ***********************************************************************************************************************************
-ok: [core] => {
-    "msg": "The name of the first interface is GigabitEthernet1 and its IP is 192.133.178.89"
-}
-
-PLAY RECAP *************************************************************************************************************************************
-core                       : ok=4    changed=0    unreachable=0    failed=0                     : ok=3    changed=0    unreachable=0    failed=0
+PLAY RECAP *******************************************************************************************************************
+core                       : ok=2    changed=0    unreachable=0    failed=0
+hq                         : ok=2    changed=0    unreachable=0    failed=0
+internet                   : ok=2    changed=0    unreachable=0    failed=0
+sp1                        : ok=2    changed=0    unreachable=0    failed=0                       : ok=1    changed=0    unreachable=0    failed=0
 ```
 
->NOTE: We were able to reference specific value from the data structure.
+Feel free to log in and check the configuration update.
+
+>Note: The **netconf_rpc** module simply sends the XML content for a particular operation.  There is no idempotency because
+there is no checking beforehand.  The **netconf_config** module _is_ idempotent, but very problematic.
+
+>Note: We specified `operation='replace'` in the payload to change from the default merge behavior.
+
+>Note: The netconf modules all require the `netconf` connection type.
 
 ## Complete
 
