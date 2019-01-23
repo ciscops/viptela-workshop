@@ -51,7 +51,6 @@ This playbook will:
 * Launch the topology file
 * Wait until they show as reachable in VIRL
 
-```
 
 ## Complete
 
