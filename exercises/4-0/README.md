@@ -21,7 +21,7 @@ Create a new file called `router_configs.yml` with the following play and task t
     - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       ios_config:
         lines:
-          - ntp server 192.5.41.40
+          - ntp server 1.1.1.1
 ```
 
 Run the playbook:
@@ -91,8 +91,8 @@ Now update the task to add one more NTP server:
     - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       ios_config:
         lines:
-          - ntp server 192.5.41.40
-          - ntp server 192.5.41.41
+          - ntp server 1.1.1.1
+          - ntp server 2.2.2.2
 ```
 
 
@@ -106,10 +106,10 @@ Using /Users/stevenca/Workspaces/viptela-workshop/ansible.cfg as config file
 PLAY [CONFIGURE ROUTERS] ***********************************************************************************************************************
 
 TASK [ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT] *****************************************************************************************
-changed: [sp1] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
-changed: [internet] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
-changed: [core] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
-changed: [hq] => {"banners": {}, "changed": true, "commands": ["ntp server 192.5.41.41"], "updates": ["ntp server 192.5.41.41"]}
+changed: [sp1] => {"banners": {}, "changed": true, "commands": ["ntp server 2.2.2.2"], "updates": ["ntp server 2.2.2.2"]}
+changed: [internet] => {"banners": {}, "changed": true, "commands": ["ntp server 2.2.2.2"], "updates": ["ntp server 2.2.2.2"]}
+changed: [core] => {"banners": {}, "changed": true, "commands": ["ntp server 2.2.2.2"], "updates": ["ntp server 2.2.2.2"]}
+changed: [hq] => {"banners": {}, "changed": true, "commands": ["ntp server 2.2.2.2"], "updates": ["ntp server 2.2.2.2"]}
 
 PLAY RECAP *************************************************************************************************************************************
 core                       : ok=1    changed=1    unreachable=0    failed=0
@@ -148,8 +148,12 @@ internet                   : ok=1    changed=1    unreachable=0    failed=0
 sp1                        : ok=1    changed=1    unreachable=0    failed=0
 ```
 
-
 #### Step 5
+
+Our NTP servers are now set to `1.1.1.1` and `2.2.2.2`, but we want to change them to `1.1.1.1` and `3.3.3.3`.  Make 
+the appropriate change to the playbook, run it, then log into one of the routers and see the result.
+
+#### Step 6
 
 Rather than push individual lines of configuration, an entire configuration snippet can be pushed to the devices. Create a file called `secure_router.cfg` in the same directory as your playbook and add the following lines of configuration into it:
 
@@ -167,8 +171,7 @@ service tcp-keepalives-out
 
 ```
 
-
-#### Step 6
+#### Step 7
 
 Remember that a playbook contains a list of plays. Add a new play called `HARDEN IOS ROUTERS` to the `router_configs.yml`
 playbook with a task to push the configurations in the `secure_router.cfg` file you created in **STEP 5**
@@ -186,8 +189,8 @@ playbook with a task to push the configurations in the `secure_router.cfg` file 
     - name: ENSURE THAT THE DESIRED NTP SERVERS ARE PRESENT
       ios_config:
         lines:
-          - ntp server 192.5.41.40
-          - ntp server 192.5.41.41
+          - ntp server 1.1.1.1
+          - ntp server 2.2.2.2
 
 
 - name: HARDEN IOS ROUTERS
@@ -229,6 +232,10 @@ hq                         : ok=2    changed=1    unreachable=0    failed=0
 internet                   : ok=2    changed=1    unreachable=0    failed=0
 sp1                        : ok=2    changed=1    unreachable=0    failed=0
 ```
+
+>Note: The second play will not be idempotent.  `ios_config` performs a text-based comparison of the directives being added to
+the directives already in the configuration.  Since default values do not show up in the IOS configuration, however, some
+directives appear to be a change, when they are not.
 
 ## Complete
 

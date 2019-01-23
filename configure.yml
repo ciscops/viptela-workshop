@@ -1,9 +1,8 @@
-- name: Check initial connectivity
+- name: Check playbook reqiurements
   hosts: routers
   tags:
-    - check
     - control
-    - vedge
+    - edge
     - CA
   any_errors_fatal: true
   connection: network_cli
@@ -24,6 +23,18 @@
       delegate_to: localhost
       run_once: yes
 
+- name: Check initial connectivity
+  hosts: routers
+  tags:
+    - check_control
+    - check_all
+    - control
+    - edge
+    - CA
+  any_errors_fatal: true
+  connection: network_cli
+  gather_facts: no
+  tasks:
     - ios_ping:
         dest: "{{ item }}"
         count: 60
@@ -36,9 +47,10 @@
 - name: Verify that vManage is fully operational
   hosts: localhost
   tags:
-    - check
+    - check_control
+    - check_all
     - control
-    - vedge
+    - edge
     - CA
   any_errors_fatal: true
   gather_facts: no
@@ -65,7 +77,7 @@
   hosts: localhost
   tags:
     - control
-    - vedge
+    - edge
     - CA
   any_errors_fatal: true
   gather_facts: no
@@ -100,7 +112,7 @@
   hosts: viptela_control
   tags:
     - control
-    - vedge
+    - edge
   any_errors_fatal: true
   connection: netconf
   gather_facts: no
@@ -118,8 +130,9 @@
   hosts: routers
   tags:
     - control
-    - vedge
-    - check
+    - edge
+    - check_control
+    - check_all
   any_errors_fatal: true
   connection: network_cli
   gather_facts: no
@@ -131,9 +144,10 @@
 - name: Verify that vManage is fully operational
   hosts: localhost
   tags:
-    - check
+    - check_control
+    - check_all
     - control
-    - vedge
+    - edge
     - CA
   any_errors_fatal: true
   gather_facts: no
@@ -160,7 +174,7 @@
   hosts: vmanage1
   tags:
     - control
-    - vedge
+    - edge
   any_errors_fatal: true
   gather_facts: no
   tasks:
@@ -247,7 +261,7 @@
 - name: Configuring Viptela components
   hosts: viptela_vedge
   tags:
-    - vedge
+    - edge
   any_errors_fatal: true
   connection: netconf
   gather_facts: no
@@ -261,11 +275,12 @@
       netconf_rpc:
         rpc: commit
 
-- name: Check connetivty to vedges
+- name: Check connetivty to edges
   hosts: routers
   tags:
-    - vedge
-    - check
+    - edge
+    - check_all
+    - check_edge
   any_errors_fatal: true
   connection: network_cli
   gather_facts: no
@@ -277,7 +292,7 @@
 - name: Bootstrap vEdges
   hosts: viptela_vedge
   tags:
-    - vedge
+    - edge
   any_errors_fatal: true
   gather_facts: no
   serial: 1
@@ -309,8 +324,9 @@
 - name: Checking connectivity between end hosts
   hosts: clients
   tags:
-    - check
-    - vedge
+    - check_edge
+    - check_all
+    - edge
   any_errors_fatal: true
   gather_facts: no
   tasks:
