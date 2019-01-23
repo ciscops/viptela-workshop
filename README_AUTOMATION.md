@@ -23,7 +23,8 @@ to get the most from this workshop, we recommend these [pre-requisites](pre-requ
 
 ### Section 05 - Bring up the Viptela Overlay Network
 - [Exercise 5.0 - Bring up the Viptela Control Plane](./exercises/5-0)
-- [Exercise 5.1 - Bring up the Viptela Edge](./exercises/5-1)
+- [Exercise 5.1 - Exercising the vManage REST API](./exercises/5-1)
+- [Exercise 5.2 - Bring up the Viptela Edge](./exercises/5-2)
 
 ### Section 06 - Advanced Concepts
 - [Exercise 6.0 - Configure the router configurations using NETCONF](./exercises/6-0)

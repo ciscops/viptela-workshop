@@ -32,14 +32,7 @@ def main():
     sim_name = ''
     hostvars = {}
     all_hosts = []
-    inventory = {
-        '_meta': {
-            'hostvars': hostvars
-        },
-        'all': {
-            'hosts': all_hosts
-        }
-    }
+    simulation = ''
 
     if 'VIRL_HOST' in os.environ:
         host = os.environ['VIRL_HOST']
@@ -84,10 +77,10 @@ def main():
 
     if os.path.exists('.virl/default/id'):
         with open('.virl/default/id') as file:
-            sim_name = file.read()
+            simulation = file.read()
 
-    if sim_name:
-        simulation = sim_name
+    if simulation:
+        inventory['all']['vars'].update({'virl_simulation': simulation})
 
         url = "http://%s:19399/simengine/rest/interfaces/%s" % (host, simulation)
 

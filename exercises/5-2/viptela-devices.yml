@@ -1,0 +1,28 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Get Cookie
+      uri:
+        url: "https://{{ hostvars['vmanage1'].ansible_host }}/j_security_check"
+        method: POST
+        body:
+          j_username: "{{ viptela_api_username }}"
+          j_password: "{{ viptela_api_password }}"
+        body_format: form-urlencoded
+        validate_certs: no
+      register: login_results
+
+    - name: Get a list of fabric devices
+      uri:
+        url: "https://{{ hostvars['vmanage1'].ansible_host }}/dataservice/device"
+        method: GET
+        headers:
+          Cookie: "{{ login_results.set_cookie }}"
+        validate_certs: no
+      register: uri_results
+
+    - set_fact:
+        host_list: "{{ uri_results.json.data | selectattr('status', 'equalto', 'normal') | map(attribute='host-name') | list }}"
+
+    - debug:
+        msg: "These devices are part of the fabric: {{ host_list | join(',') }}"

@@ -35,8 +35,6 @@
           headers:
             Content-Type: "text/xml;charset=UTF-8"
           body: "{{ topo_data }}"
-          return_content: yes
-        no_log: false  # Don't show output as your password will be on the URI string
         register: uri_results
         until: uri_results['status']|default(0) == 200
         retries: 60
@@ -54,12 +52,7 @@
         user: "{{ virl_username }}"
         password: "{{ virl_password }}"
         method: GET
-        return_content: yes
-      no_log: false  # Don't show output as your password will be on the URI string
       register: uri_results
-
-#    - debug:
-#        var: uri_results
 
     - assert:
         that:
@@ -75,8 +68,6 @@
         user: "{{ virl_username }}"
         password: "{{ virl_password }}"
         method: GET
-        return_content: yes
-      no_log: false  # Don't show output as your password will be on the URI string
       register: uri_results
       until: (uri_results.json[session] is defined) and (uri_results.json[session].values() | map(attribute='reachable') | list | unique | join('') | bool)
       retries: 60

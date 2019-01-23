@@ -17,8 +17,8 @@ Create a new file called `ntp-restconf2.yml` that perfoms a REST `GET` operation
   gather_facts: no
   vars:
     ntp_server_list:
-      - { ip-address: 192.5.41.40 }
-      - { ip-address: 192.5.41.41 }
+      - { ip-address: 1.1.1.1 }
+      - { ip-address: 2.2.2.2 }
   tasks:
     - name: GET THE NTP LIST SERVERS
       uri:
@@ -107,8 +107,8 @@ Now let's add another task using the `uri` module with the `GET` method to see w
   gather_facts: no
   vars:
     ntp_server_list:
-      - { ip-address: 192.5.41.40 }
-      - { ip-address: 192.5.41.41 }
+      - { ip-address: 1.1.1.1 }
+      - { ip-address: 2.2.2.2 }
   tasks:
     - name: GET THE NTP LIST SERVERS
       uri:
@@ -196,7 +196,7 @@ internet                   : ok=3    changed=0    unreachable=0    failed=0
 sp1                        : ok=3    changed=0    unreachable=0    failed=0
 ```
 
-Finally, change the servers in the ntp_server_list and run the playbook again:
+Finally, replace the server `2.2.2.2` with `3.3.3.3` in the ntp_server_list and run the playbook again:
 
 ```shell
 $ ansible-playbook ntp-restconf2.yml
@@ -218,22 +218,22 @@ ok: [internet]
 TASK [debug] ***********************************************************************************************************************************
 ok: [core] => {
     "msg": [
-        "192.5.41.42"
+        "3.3.3.3"
     ]
 }
 ok: [sp1] => {
     "msg": [
-        "192.5.41.42"
+        "3.3.3.3"
     ]
 }
 ok: [hq] => {
     "msg": [
-        "192.5.41.42"
+        "3.3.3.3"
     ]
 }
 ok: [internet] => {
     "msg": [
-        "192.5.41.42"
+        "3.3.3.3"
     ]
 }
 

@@ -208,7 +208,6 @@ sp1                        : ok=3    changed=1    unreachable=0    failed=0
 
 Validate that the new loopback interface we added in **Step 1**  is no longer on the device.
 
-
 ```
 core#show ip int brief
 Interface              IP-Address      OK? Method Status                Protocol
