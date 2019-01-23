@@ -25,9 +25,9 @@ Install requirements with pip:
 pip install -r requirements.txt
 ```
 
-Install sshpass
+Install sshpass (see [pre-requisites](pre-requisites.md)).
 
-## Step 3
+## Step 4
 
 Deploy Topology:
 
@@ -45,11 +45,12 @@ Run the `build` playbook to the build the topology in `viptela1_csr.virl`:
 ansible-playbook build.yml -e topo_file=viptela1_csr.virl
 ```
 
+>Note: The username is used in the session ID by default.  A different tag can be specified by adding `-e virl_tag=<tag name>`.
+
 This playbook will:
 * Launch the topology file
 * Wait until they show as reachable in VIRL
 
-```
 
 ## Complete
 

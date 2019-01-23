@@ -35,13 +35,29 @@
           headers:
             Content-Type: "text/xml;charset=UTF-8"
           body: "{{ topo_data }}"
-          return_content: yes
-        no_log: false  # Don't show output as your password will be on the URI string
         register: uri_results
         until: uri_results['status']|default(0) == 200
         retries: 60
         delay: 10
       when: not stat_result.stat.exists
+
+    - name: Get the existing session ID
+      set_fact:
+        session: "{{lookup('file', virl_sim_file) }}"
+      when: stat_result.stat.exists
+
+    - name: Check the status of simulation {{ session }}
+      uri:
+        url: "http://{{ virl_host }}:19399/simengine/rest/status/{{ session }}"
+        user: "{{ virl_username }}"
+        password: "{{ virl_password }}"
+        method: GET
+      register: uri_results
+
+    - assert:
+        that:
+          - uri_results.json.state == 'ACTIVE'
+        msg: "Session {{ session }} is not active.  Either it did not start properly or was not cleaned properly.  Please run the clean.yml playbook and try again."
 
     - set_fact:
         session: "{{ lookup('file', virl_sim_file, errors='ignore') }}"
@@ -52,8 +68,6 @@
         user: "{{ virl_username }}"
         password: "{{ virl_password }}"
         method: GET
-        return_content: yes
-      no_log: false  # Don't show output as your password will be on the URI string
       register: uri_results
       until: (uri_results.json[session] is defined) and (uri_results.json[session].values() | map(attribute='reachable') | list | unique | join('') | bool)
       retries: 60

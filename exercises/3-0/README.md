@@ -279,6 +279,12 @@ service password-encryption
 
 > Note: The **head** unix command will display the first N lines specified as an argument.
 
+## Step 4
+
+Now let's try to apply our knowledge.  Use the Ansible [copy](https://docs.ansible.com/ansible/latest/modules/copy_module.html)
+and [file](https://docs.ansible.com/ansible/latest/modules/file_module.html#file-module) modules to rename the backup file to `<router name>.config`
+and delete the original.
+
 ## Complete
 
 You have completed lab exercise 3.0

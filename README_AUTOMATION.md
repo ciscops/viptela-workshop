@@ -18,25 +18,24 @@ to get the most from this workshop, we recommend these [pre-requisites](pre-requ
 - [Exercise 3.0 - Backing up the router configuration](./exercises/3-0)
 - [Exercise 3.1 - Restoring the backed up configuration](./exercises/3-1)
 
-### Section 04 - Using Ansible to configure via CLI and NETCONF
+### Section 04 - Using Ansible to configure via CLI
 - [Exercise 4.0 - Configure the router configurations using CLI](./exercises/4-0)
-- [Exercise 4.1 - Configure the router configurations using NETCONF](./exercises/4-1)
-- [Exercise 4.2 - Configure the router configurations using RESTCONF](./exercises/4-2)
 
-### Section 05 - An introduction to templating with Jinja2 
-- [Exercise 5.0 - An introduction to templating with Jinja2](./exercises/5-0)
+### Section 05 - Bring up the Viptela Overlay Network
+- [Exercise 5.0 - Bring up the Viptela Control Plane](./exercises/5-0)
+- [Exercise 5.1 - Exercising the vManage REST API](./exercises/5-1)
+- [Exercise 5.2 - Bring up the Viptela Edge](./exercises/5-2)
 
 ### Section 06 - Advanced Concepts
-- [Exercise 6.0 - Parsing unstructured data with TextFSM](./exercises/6-0)
-- [Exercise 6.1 - Adding idempotency to REST operations](./exercises/6-1)
-- [Exercise 6.2 - An introduction to Roles](./exercises/6-2)
+- [Exercise 6.0 - Configure the router configurations using NETCONF](./exercises/6-0)
+- [Exercise 6.1 - Configure the router configurations using RESTCONF](./exercises/6-1)
+- [Exercise 6.2 - An introduction to templating with Jinja2](./exercises/6-2)
+- [Exercise 6.3 - Parsing unstructured data with TextFSM](./exercises/6-3)
+- [Exercise 6.4 - Adding idempotency to REST operations](./exercises/6-4)
+- [Exercise 6.5 - An introduction to Roles](./exercises/6-5)
 
-### Section 07 - Bring up the Viptela Overlay Network
-- [Exercise 7.0 - Bring up the Viptela Control Plane](./exercises/7-0)
-- [Exercise 7.1 - Bring up the Viptela Edge](./exercises/7-1)
-
-### Section 08 - Clean up the workshop topoloigy
-- [Exercise 8.0 - Clean up the workshop topoloigy](./exercises/8-0)
+### Section 07 - Clean up the workshop topology
+- [Exercise 7.0 - Clean up the workshop topology](./exercises/7-0)
 
 ## Additional information
  - [Network Automation with Ansible Homepage](https://www.ansible.com/network-automation)
