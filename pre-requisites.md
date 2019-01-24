@@ -30,7 +30,7 @@ Installing on OS X is tricky, since there is no official build for it. Before yo
 [Homebrew](http://brew.sh/) does not allow you to install `sshpass` by default. But you can use the following unofficial brew package for that.
 
 ```bash
-brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+brew install https://raw.githubusercontent.com/ciscops/viptela-workshop/master/sshpass.rb
 ```
       
 #### Installing from the Source
