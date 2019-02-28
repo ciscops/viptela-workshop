@@ -1,4 +1,4 @@
-# Exercise 8.0 - Clean up the Topology
+# Exercise 7.0 - Clean up the Topology
 
 #### Step 1
 
@@ -15,6 +15,6 @@ This playbook will:
 
 ## Complete
 
-You have completed lab exercise 8.0
+You have completed lab exercise 7.0
 
 [Click Here to return to the Viptela Networking Automation Workshop](../../README_AUTOMATION.md)
