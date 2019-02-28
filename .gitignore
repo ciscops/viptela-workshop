@@ -8,3 +8,4 @@ licenses/
 .virl/
 .virlrc
 viptela_api_cookie
+venv/
