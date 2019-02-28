@@ -361,7 +361,7 @@ Write a new task to display only the hostname using a debug command:
 
 Re-run the playbook.
 
-``` yaml
+```
 $ ansible-playbook gather_ios_data.yml --tags=show
 
 PLAY [GATHER INFORMATION FROM ROUTERS] *********************************************************************************************************
