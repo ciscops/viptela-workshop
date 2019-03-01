@@ -87,7 +87,7 @@ Let's apply our knowlege.  Use the `-vvv` option to view the JSON reply from the
 to just print out the names of all vbonds.  The output should look similar to this:
 
 ```
-$ ansible-playbook viptela-devices.yml
+$ ansible-playbook viptela_devices.yml
 
 PLAY [localhost] *******************************************************************************************************************************
 
