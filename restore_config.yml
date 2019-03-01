@@ -1,0 +1,21 @@
+---
+- name: RESTORE CONFIGURATION
+  hosts: routers
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - name: ENABLE SCP ON THE ROUTER
+      ios_config:
+        lines:
+          - ip scp server enable
+
+    - name: COPY RUNNING CONFIG TO ROUTER
+      net_put:
+        src: ./backup/{{inventory_hostname}}.config
+        dest: "bootflash:/{{inventory_hostname}}.config"
+
+    - name: CONFIG REPLACE
+      ios_command:
+        commands:
+          - config replace flash:{{inventory_hostname}}.config force
