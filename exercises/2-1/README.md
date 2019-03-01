@@ -116,11 +116,11 @@ internet                   : ok=1    changed=0    unreachable=0    failed=0
 sp1                        : ok=1    changed=0    unreachable=0    failed=0
 ```
 
-Note 2 important points here:
-
-1. Only a single task was executed during the playbook run (You no longer can see the serial number and IOS version being displayed)
-
-2. The output of the show commands is not being displayed.
+>Note 2 important points here:
+>
+>1. Only a single task was executed during the playbook run (You no longer can see the serial number and IOS version being displayed)
+>
+>2. The output of the show commands is not being displayed.
 
 
 #### Step 3
