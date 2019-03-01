@@ -5,7 +5,7 @@ calls to vManage to get and set information.
 
 #### Step 1
 
-Open a new file called `viptela-devices.yml`.  Since the vManage API requires the use of cookies, we first need to authenticate:
+Open a new file called `viptela_devices.yml`.  Since the vManage API requires the use of cookies, we first need to authenticate:
 
 ```yaml
 - hosts: localhost
@@ -28,7 +28,7 @@ Open a new file called `viptela-devices.yml`.  Since the vManage API requires th
 
 >Note: Because we are running on the local host, we need to get vManage's IP address from the `ansible_host` variable in context of `vmanage1` 
 
-Assuming this first task completes successful, the cookie is set in `uri_results`.  We can then feed that value to the
+Assuming this first task completes successful, the cookie is set in `login_results`.  We can then feed that value to the
 REST API call to get the list of devices:
 
 ```yaml
@@ -55,8 +55,8 @@ we print the list with the debug module and join filter:
 
 Now run the playbook:
 
-``` shell
-$ ansible-playbook viptela-devices.yml
+```
+$ ansible-playbook viptela_devices.yml
 
 PLAY [localhost] *******************************************************************************************************************************
 
@@ -83,10 +83,10 @@ of `normal`
 
 #### Step 2
 
-Let's apply our knowlege.  Use the `-vvv` option to set the JSON reply from the REST API call, then modify the playbook
+Let's apply our knowlege.  Use the `-vvv` option to view the JSON reply from the REST API call, then modify the playbook
 to just print out the names of all vbonds.  The output should look similar to this:
 
-```bash
+```
 $ ansible-playbook viptela-devices.yml
 
 PLAY [localhost] *******************************************************************************************************************************
