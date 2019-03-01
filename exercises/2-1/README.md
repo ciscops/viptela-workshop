@@ -30,7 +30,7 @@ How can you limit the facts collected ?
 #### Step 2
 In the previous section, you learned how to use the `ios_facts` module to collect device details. What if you wanted to collect the output of a `show` command that was not provided as a part of `ios_facts` ?
 
-The `ios_command` module allows you to do that. Go ahead and add another task to the playbook to collect the output of 2 _show_ commands to collect the **hostname** and the output of the `show ip interface brief` commands:
+The `ios_command` module allows you to do that. Go ahead and add another task to the gather_ios_data.yml playbook to collect the output of 2 _show_ commands to collect the **hostname** and the output of the `show ip interface brief` commands:
 
 ```yaml
 
