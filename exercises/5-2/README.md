@@ -24,11 +24,11 @@ ansible-playbook configure.yml --tags=check_edge
 
 #### Step 3
 
-Finally, modify the playbook `viptela-devices.yml` to just print out all of the vedges.  The output should look similar
+Finally, modify the playbook `viptela_devices.yml` to just print out all of the vedges.  The output should look similar
 to the following:
 
-```bash
-$ ansible-playbook viptela-devices.yml
+```
+$ ansible-playbook viptela_devices.yml
 
 PLAY [localhost] *******************************************************************************************************************************
 
