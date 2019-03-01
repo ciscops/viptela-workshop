@@ -8,7 +8,7 @@ Create a new file called `router_configs.yml` with the following play and task t
 
 > Note: For help on the **ios_config** module, use the **ansible-doc ios_config** command from the command line or check docs.ansible.com. This will list all possible options with usage examples.
 
-```
+``` yaml
 
 ---
 - name: CONFIGURE ROUTERS
