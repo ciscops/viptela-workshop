@@ -31,7 +31,7 @@ Install sshpass (see [pre-requisites](../../pre-requisites.md)).
 
 Deploy Topology:
 
-Create a .virlrc:
+Create a file name `.virlrc` in the `viptela-workshop` directory:
 ``` shell
 VIRL_USERNAME=guest
 VIRL_PASSWORD=guest
