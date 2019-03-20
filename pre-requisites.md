@@ -3,7 +3,9 @@
 ### PIP
 
 You need an environment capable of running PIP or the ability to manually install the requirements enumerated in `requirements.txt`
-
+```
+pip install -r requirements.txt
+```
 ### SSHPASS
 
 
