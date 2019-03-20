@@ -5,6 +5,7 @@
 * A license file located at `licenses\viptela_serial_file.viptela`
 * The organization name associated with the license file.
 
+>Note: You'll need to create the `licenses` directory in the `viptela-workshop` directory
 #### Step 1
 
 The easiest way to specify the organization name is to modify `organization_name` in `inventory/group_vars/all/viptela.yml`:
