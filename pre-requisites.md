@@ -46,11 +46,8 @@ brew install https://raw.githubusercontent.com/ciscops/viptela-workshop/master/s
 Windows does not support python or Ansible suffiently to undertake this lab.  Please install either a Red Hat/CentOS or Unbuntu VM (e.g. with Vagrant) to satisfy the requirements.
 
 #### virlutils
-virlutils are used in certain excercises to retreive the IP addresses of the devices in your topology.  To install virlutils:
+virlutils is used in certain excercises to retreive the IP addresses of the devices in your topology. It is installed from `requirements.txt`
 
-```
-pip install virlutils
-```
 To list the devices in your topology:
 ```
 virl nodes
