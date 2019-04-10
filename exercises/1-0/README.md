@@ -4,8 +4,9 @@
 
 Cloning the workshop repo repo:
 
+``` shell
 git clone `https://github.com/ciscops/viptela-workshop.git`
-
+```
 
 ## Step 2
 
