@@ -62,16 +62,18 @@ def main():
         password = result['VIRL_PASSWORD']
 
     inventory = {
-        '_meta': {
-            'hostvars': hostvars
-        },
         'all': {
-            'hosts': all_hosts,
             'vars': {
                 'virl_host': host,
                 'virl_username': username,
                 'virl_password': password
-            }
+            },
+        },
+        'virl_node': {
+            'hosts': all_hosts,
+        },
+        '_meta': {
+            'hostvars': hostvars
         }
     }
 
@@ -91,9 +93,11 @@ def main():
             interfaces = simulations.json()[simulation]
 
             for key, value in interfaces.items():
-                management_address = value['management']['ip-address'].split('/')[0]
-                all_hosts.append(key)
-                hostvars[key] = {'ansible_host': management_address}
+                if 'management' in value and 'ip-address' in value['management']:
+                    if value['management']['ip-address']:
+                        management_address = value['management']['ip-address'].split('/')[0]
+                        all_hosts.append(key)
+                        hostvars[key] = {'ansible_host': management_address}
 
         # else:
         #     print >> sys.stderr, "http error (%s): %s" % (simulations.status_code, simulations.text)

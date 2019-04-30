@@ -1,6 +1,0 @@
-system_ip: 192.168.255.11
-transport_ip: 10.0.0.11
-site_id: 1
-vbond:
-  remote: 10.0.0.11
-  local: true
