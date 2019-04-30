@@ -257,7 +257,7 @@
         host: "{{ vmanage_ip }}"
         user: "{{ ansible_user }}"
         password: "{{ ansible_password }}"
-        file: 'licenses/serialFile.viptela'
+        file: "{{ serial_number_file }}"
       delegate_to: localhost
 
 - name: Configuring Viptela components
