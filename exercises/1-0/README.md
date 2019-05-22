@@ -5,7 +5,7 @@
 Cloning the workshop repo repo:
 
 ``` shell
-git clone https://github.com/ciscops/viptela-workshop.git
+git clone https://github.com/ciscops/viptela-workshop.git --recursive
 ```
 
 ## Step 2
@@ -43,7 +43,7 @@ VIRL_HOST=your.virl.server
 
 Run the `build` playbook to the build the topology in `viptela1_csr.virl`:
 ``` shell
-ansible-playbook build.yml -e topo_file=viptela1_csr.virl
+ansible-playbook build.yml
 ```
 
 >Note: The username is used in the session ID by default.  A different tag can be specified by adding `-e virl_tag=<tag name>`.
