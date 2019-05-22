@@ -1,4 +1,0 @@
----
-# - include_tasks: facts.yml
-
-- debug: var=hostvars

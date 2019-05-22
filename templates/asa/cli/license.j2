@@ -1,0 +1,7 @@
+license smart
+ feature tier standard
+ throughput level 10G
+!
+{% if smart_license_token is defined %}
+license smart register idtoken {{ smart_license_token }}
+{% endif %}

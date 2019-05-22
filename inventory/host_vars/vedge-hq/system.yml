@@ -1,5 +1,0 @@
-system_ip: 192.168.255.13
-site_id: 1
-omp:
-  advertise:
-    - ospf-external

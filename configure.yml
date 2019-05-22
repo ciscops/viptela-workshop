@@ -1,30 +1,25 @@
 - name: Check playbook reqiurements
-  hosts: routers
+  hosts: localhost
   tags:
     - control
     - edge
     - CA
   any_errors_fatal: true
-  connection: network_cli
   gather_facts: no
   tasks:
     - name: Check for the license file
       stat:
         path: "{{ serial_number_file }}"
       register: stat_result
-      delegate_to: localhost
-      run_once: yes
 
     - assert:
         that:
           - stat_result.stat.exists
           - organization_name != ""
         msg: "'organization_name' must be defined and {{ serial_number_file }} must exist.  Verify the requirements in README are met."
-      delegate_to: localhost
-      run_once: yes
 
 - name: Check initial connectivity
-  hosts: routers
+  hosts: router:&virl_node
   tags:
     - check_control
     - check_all
@@ -65,7 +60,7 @@
         body_format: form-urlencoded
         return_content: yes
         validate_certs: no
-      no_log: true
+      no_log: false
       register: uri_results
       delegate_to: localhost
       failed_when: false
@@ -109,7 +104,7 @@
         provider: selfsigned
 
 - name: Configuring Viptela components
-  hosts: viptela_control
+  hosts: viptela_control:&virl_node
   tags:
     - control
     - edge
@@ -118,16 +113,11 @@
   gather_facts: no
   tasks:
     - name: Push NETCONF template
-      netconf_rpc:
-        rpc: edit-config
-        content: "{{ lookup('template', 'viptela-netconf.j2') }}"
-
-    - name: Commit changes
-      netconf_rpc:
-        rpc: commit
+      netconf_config:
+        content: "{{ lookup('template', 'viptela/netconf.j2') }}"
 
 - name: Check connetivty to Viptela control plane
-  hosts: routers
+  hosts: router:&virl_node
   tags:
     - control
     - edge
@@ -171,36 +161,47 @@
       delay: 10
 
 - name: Configure vmanage
-  hosts: vmanage1
+  hosts: localhost
+  roles:
+    - ansible-viptela
   tags:
     - control
     - edge
   any_errors_fatal: true
   gather_facts: no
   tasks:
+    - set_fact:
+        vmanage_host: "{{ groups.vmanage_hosts | first }}"
+
+    - set_fact:
+        vmanage_ip: "{{ hostvars[vmanage_host].ansible_host }}"
+
+    - debug:
+        msg: "vManage IP: {{ vmanage_ip }}"
+
     - name: Add vBond Hosts
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: add-controller
       vars:
         device_hostname: "{{ item }}"
-        device_ip: "{{ hostvars[item].transport_ip }}"
+        device_ip: "{{ hostvars[item].viptela.transport_ip }}"
         device_personality: vbond
       loop: "{{ groups.vbond_hosts }}"
 
     - name: Add vSmart Hosts
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: add-controller
       vars:
         device_hostname: "{{ item }}"
-        device_ip: "{{ hostvars[item].transport_ip }}"
+        device_ip: "{{ hostvars[item].viptela.transport_ip }}"
         device_personality: vsmart
       loop: "{{ groups.vsmart_hosts }}"
 
     - name: Set organization
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: set-org
       vars:
         org_name: "{{ organization_name }}"
@@ -210,24 +211,24 @@
 
     - name: Set vBond
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: set-vbond
       vars:
-        vbond_ip: "{{ hostvars[vbond_controller].transport_ip }}"
+        vbond_ip: "{{ hostvars[vbond_controller].viptela.transport_ip }}"
 
     - name: Set Enterprise Root CA
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: set-rootca
       vars:
         root_cert: "{{lookup('file', '{{ viptela_cert_dir }}/myCA.pem')}}"
 
     - name: Get Controler CSR
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: get-csr
       vars:
-        device_ip: "{{ hostvars[item].transport_ip }}"
+        device_ip: "{{ hostvars[item].viptela.transport_ip }}"
         device_hostname: "{{ item }}"
         csr_filename: "{{ viptela_cert_dir }}/{{ item }}.csr"
       loop: "{{ groups.viptela_control }}"
@@ -245,21 +246,22 @@
 
     - name: Install Controller Certificate
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: install-cert
       vars:
         device_cert: "{{lookup('file', '{{ viptela_cert_dir }}/{{ item }}.crt')}}"
       loop: "{{ groups.viptela_control }}"
 
     - name: Install Serial File
-      include_role:
-       name: viptela-api
-       tasks_from: install-serials
-      vars:
-       viptela_serial_file: 'licenses/viptela_serial_file.viptela'
+      viptela_fileupload:
+        host: "{{ vmanage_ip }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        file: "{{ serial_number_file }}"
+      delegate_to: localhost
 
 - name: Configuring Viptela components
-  hosts: viptela_vedge
+  hosts: viptela_vedge:&virl_node
   tags:
     - edge
   any_errors_fatal: true
@@ -267,16 +269,11 @@
   gather_facts: no
   tasks:
     - name: Push NETCONF template
-      netconf_rpc:
-        rpc: edit-config
-        content: "{{ lookup('template', 'viptela-netconf.j2') }}"
-
-    - name: Commit changes
-      netconf_rpc:
-        rpc: commit
+      netconf_config:
+        content: "{{ lookup('template', 'viptela/netconf.j2') }}"
 
 - name: Check connetivty to edges
-  hosts: routers
+  hosts: router:&virl_node
   tags:
     - edge
     - check_all
@@ -290,7 +287,7 @@
       loop: "{{ groups.viptela_vedge }}"
 
 - name: Bootstrap vEdges
-  hosts: viptela_vedge
+  hosts: viptela_vedge:&virl_node
   tags:
     - edge
   any_errors_fatal: true
@@ -302,9 +299,15 @@
     viptela_cert_dir: "{{ lookup('env', 'PWD') }}/myCA"
     ansible_network_os: ios
   tasks:
+    - set_fact:
+        vmanage_host: "{{ groups.vmanage_hosts | first }}"
+
+    - set_fact:
+        vmanage_ip: "{{ hostvars[vmanage_host].ansible_host }}"
+
     - name: Bootstrap vEdge
       include_role:
-        name: viptela-api
+        name: ansible-viptela
         tasks_from: bootstrap-vedge
       vars:
         device_ip: "{{ hostvars[item].ansible_host }}"
@@ -322,7 +325,7 @@
       delegate_to: localhost
 
 - name: Checking connectivity between end hosts
-  hosts: clients
+  hosts: client:&virl_node
   tags:
     - check_edge
     - check_all
@@ -335,6 +338,6 @@
         host: "{{ item }}"
       loop:
         - 10.0.1.10
-        - 10.100.1.10
+#        - 10.100.1.10
       tags:
         - configured
