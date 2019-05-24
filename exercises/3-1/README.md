@@ -23,6 +23,8 @@ Our objective is to apply this "last known good configuraion backup" to the rout
 
 On one of the routers (`core`) manually make a change. For instance add a new loopback interface.
 
+>Note: to get the listing of the devices in your topology and their associated management IP address, run `virl nodes` in the `viptela-workshop` directory.  The default credentials are admin/admin.
+
 Log into `core` and add the following:
 
 ```
@@ -46,7 +48,6 @@ interface Loopback101
 end
 ```
 
->Note: to get the listing of the devices in your topology and their associated IP address, run `virl nodes` in the `viptela-workshop` directory.
 #### Step 2
 
 Step 1 simulates our "Out of process/band" changes on the network. This change needs to be reverted. So let's write a new playbook to apply the backup we collected from our previous lab to achieve this.
