@@ -87,7 +87,7 @@
     - assert:
         that:
           - uri_results.json.state == 'ACTIVE'
-        msg: "Session {{ session }} is not active.  Either it did not start properly or was not cleaned properly.  Please run the clean.yml playbook and try again."
+        msg: "Session {{ session }} is not active.  Either it did not start properly or was not cleaned properly.  Please run the 'ansible-playbook clean.yml' command and try again."
 
     - set_fact:
         session: "{{ lookup('file', virl_sim_file, errors='ignore') }}"
