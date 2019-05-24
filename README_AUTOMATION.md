@@ -11,7 +11,7 @@ to get the most from this workshop, we recommend these [pre-requisites](pre-requ
 
 ## Cloning this repo:
 
-git clone `https://wwwin-github.cisco.com/ciscops/virl-viptela.git`
+`git clone https://github.com/ciscops/viptela-workshop.git --recursive`
 
 For more help with git, see DevNet's [A Brief Introduction to Git](https://learninglabs.cisco.com/lab/git-basic-workflows/step/1)
 

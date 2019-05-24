@@ -8,7 +8,7 @@
 
 ## Cloning this repo:
 
-git clone `https://wwwin-github.cisco.com/ciscops/virl-viptela.git`
+`git clone https://github.com/ciscops/viptela-workshop.git --recursive`
 
 For more help with git, see DevNet's [A Brief Introduction to Git](https://learninglabs.cisco.com/lab/git-basic-workflows/step/1)
 
@@ -22,21 +22,21 @@ The purpose of this workshop is to augment the current dCloud offerings with a "
 * Deploying template for automation
 
 ## Table of Contents
-* [Topology](https://wwwin-github.cisco.com/ciscops/virl-viptela#topology)
-* [Scenario](https://wwwin-github.cisco.com/ciscops/virl-viptela#scenario)
-* [Deploy Topology](https://wwwin-github.cisco.com/ciscops/virl-viptela#deploy-topology)
-* [Enterprise CA Setup](https://wwwin-github.cisco.com/ciscops/virl-viptela#enterprise-ca-setup)
-* [Viptela Overlay Network Bringup](https://wwwin-github.cisco.com/ciscops/virl-viptela#viptela-overlay-network-bringup)
-  * [Deploy the vManage NMS](https://wwwin-github.cisco.com/ciscops/virl-viptela#deploy-the-vmanage-nms)
-  * [Deploy the vBond Orchestrator](https://wwwin-github.cisco.com/ciscops/virl-viptela#deploy-the-vbond-orchestrator)
-  * [Deploy the vSmart Controller](https://wwwin-github.cisco.com/ciscops/virl-viptela#deploy-the-vsmart-controller)
-  * [Configure Certificate Settings](https://wwwin-github.cisco.com/ciscops/virl-viptela#confnigure-certificate-settings)
-  * [Deploy the vEdge Routers](https://wwwin-github.cisco.com/ciscops/virl-viptela#deploy-the-vedge-routers)
-* [Validate](https://wwwin-github.cisco.com/ciscops/virl-viptela#validate)
-* [Routing Options](https://wwwin-github.cisco.com/ciscops/virl-viptela#routing-options)
-  * [Configuring OSPF between the Overlay and the HQ Network](https://wwwin-github.cisco.com/ciscops/virl-viptela/tree/smc#configuring-ospf-between-the-overlay-and-the-hq-network)
-  * [Configuring NAT at the Enterprise Border](https://wwwin-github.cisco.com/ciscops/virl-viptela/tree/smc#configuring-nat-at-the-enterprise-border)
-  * [Configuring NAT at the Site Border w/Templates](https://wwwin-github.cisco.com/ciscops/virl-viptela/tree/smc#configuring-nat-at-the-site-border)
+* [Topology](#topology)
+* [Scenario](#scenario)
+* [Deploy Topology](#deploy-topology)
+* [Enterprise CA Setup](#enterprise-ca-setup)
+* [Viptela Overlay Network Bringup](#viptela-overlay-network-bringup)
+  * [Deploy the vManage NMS](#deploy-the-vmanage-nms)
+  * [Deploy the vBond Orchestrator](#deploy-the-vbond-orchestrator)
+  * [Configure the vSmart Controller](#configure-the-vsmart-controller)
+  * [Configure Certificate Settings](#confnigure-certificate-settings)
+  * [Deploy the vEdge Routers](#deploy-the-vedge-routers)
+* [Validate](#validate)
+* [Routing Options](#routing-options)
+  * [Configuring OSPF between the Overlay and the HQ Network](#configuring-ospf-between-the-overlay-and-the-hq-network)
+  * [Configuring NAT at the Enterprise Border](#configuring-nat-at-the-enterprise-border)
+  * [Configuring NAT at the Site Border w/Templates](#configuring-nat-at-the-site-border)
 
 
 ## Topology
