@@ -12,7 +12,7 @@
 
 ## Cloning this repo:
 
-git clone `https://wwwin-github.cisco.com/ciscops/viptela-workshop.git`
+`git clone https://github.com/ciscops/viptela-workshop.git --recursive`
 
 ## Deploy Topology
 
