@@ -7,12 +7,12 @@
 * sshpass
 * pyOpenSSL
 * netaddr
-* The appropriate license file needs to be located at `licenses\viptela_serial_file.viptela`
+* The appropriate license file needs to be located at `licenses\serialFile.viptela`
 
 
 ## Cloning this repo:
 
-git clone `https://wwwin-github.cisco.com/ciscops/virl-viptela.git`
+git clone `https://wwwin-github.cisco.com/ciscops/viptela-workshop.git`
 
 ## Deploy Topology
 
