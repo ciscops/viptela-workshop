@@ -292,25 +292,25 @@ vpn 512
             <entry key="ansible_group" type="String">vedge</entry>
             <entry key="config" type="String"> </entry>
         </extensions>
-        <interface id="0" name="eth1"/>
-        <interface id="1" name="eth2"/>
-        <interface id="2" name="eth3"/>
+        <interface id="0" name="ge0/0"/>
+        <interface id="1" name="ge0/1"/>
+        <interface id="2" name="ge0/2"/>
     </node>
     <node name="vedge1" type="SIMPLE" subtype="vEdge" location="256,449">
         <extensions>
             <entry key="ansible_group" type="String">vedge</entry>
             <entry key="config" type="String"> </entry>
         </extensions>
-        <interface id="0" name="eth1"/>
-        <interface id="1" name="eth2"/>
+        <interface id="0" name="ge0/0"/>
+        <interface id="1" name="ge0/1"/>
     </node>
     <node name="vedge2" type="SIMPLE" subtype="vEdge" location="450,446">
         <extensions>
             <entry key="ansible_group" type="String">vedge</entry>
             <entry key="config" type="String"> </entry>
         </extensions>
-        <interface id="0" name="eth1"/>
-        <interface id="1" name="eth2"/>
+        <interface id="0" name="ge0/0"/>
+        <interface id="1" name="ge0/1"/>
     </node>
     <node name="DMZ" type="SIMPLE" subtype="Unmanaged Switch" location="373,120">
         <interface id="0" name="link1"/>
