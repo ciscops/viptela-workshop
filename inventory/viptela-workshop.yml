@@ -5,6 +5,12 @@ all:
     ansible_network_os: ios
     netconf_template_os: ios
   children:
+    routers:
+      hosts:
+        internet:
+        sp:
+        hq:
+        core:  
     router:
       hosts:
         internet:
